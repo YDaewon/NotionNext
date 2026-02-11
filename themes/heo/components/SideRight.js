@@ -1,6 +1,6 @@
 import Live2D from '@/components/Live2D'
 import dynamic from 'next/dynamic'
-import { AnalyticsCard } from './AnalyticsCard'
+import { GitHubProjectsCard } from './GitHubProjectsCard'
 import Card from './Card'
 import Catalog from './Catalog'
 import { InfoCard } from './InfoCard'
@@ -22,14 +22,14 @@ const FaceBookPage = dynamic(
 )
 
 /**
- * Hexo主题右侧栏
+ * 우측 사이드바
  * @param {*} props
  * @returns
  */
 export default function SideRight(props) {
   const { post, tagOptions, currentTag, rightAreaSlot } = props
 
-  // 只摘取标签的前60个，防止右侧过长
+  // 우측 사이드바가 너무 길어지지 않도록 상위 60개 태그만 표시
   const sortedTags = tagOptions?.slice(0, 60) || []
 
   return (
@@ -37,22 +37,31 @@ export default function SideRight(props) {
       <InfoCard {...props} className='w-72 wow fadeInUp' />
 
       <div className='sticky top-20 space-y-4'>
-        {/* 文章页显示目录 */}
+        {/* 게시글 페이지용 목차(TOC) 표시 */}
         {post && post.toc && post.toc.length > 0 && (
-          <Card className='bg-white dark:bg-[#1e1e1e] wow fadeInUp'>
+          <Card className='wow fadeInUp'>
             <Catalog toc={post.toc} />
           </Card>
         )}
 
-        {/* 联系交流群 */}
+        {/* 커뮤니티/연락처 */}
         <div className='wow fadeInUp'>
           <TouchMeCard />
         </div>
 
-        {/* 最新文章列表 */}
+        {/* Projects */}
+        <Card
+          className={
+            'hover:border-zinc-500 dark:hover:border-zinc-400 duration-200'
+          }>
+          <TagGroups tags={sortedTags} currentTag={currentTag} />
+          <GitHubProjectsCard />
+        </Card>
+
+        {/* 최신 게시글 목록 */}
         <div
           className={
-            'border wow fadeInUp  hover:border-indigo-600  dark:hover:border-yellow-600 duration-200 dark:border-gray-700 dark:bg-[#1e1e1e] dark:text-white rounded-xl lg:p-6 p-4 hidden lg:block bg-white'
+            'border wow fadeInUp border-zinc-300 dark:border-zinc-700 bg-[#efefef] dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 hover:border-zinc-500 dark:hover:border-zinc-400 duration-200 rounded-xl lg:p-6 p-4 hidden lg:block'
           }>
           <LatestPostsGroupMini {...props} />
         </div>
@@ -62,15 +71,7 @@ export default function SideRight(props) {
         <FaceBookPage />
         <Live2D />
 
-        {/* 标签和成绩 */}
-        <Card
-          className={
-            'bg-white dark:bg-[#1e1e1e] dark:text-white hover:border-indigo-600  dark:hover:border-yellow-600 duration-200'
-          }>
-          <TagGroups tags={sortedTags} currentTag={currentTag} />
-          <hr className='mx-1 flex border-dashed relative my-4' />
-          <AnalyticsCard {...props} />
-        </Card>
+
       </div>
     </div>
   )

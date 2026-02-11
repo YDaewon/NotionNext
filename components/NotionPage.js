@@ -8,13 +8,13 @@ import { useEffect, useRef } from 'react'
 import { NotionRenderer } from 'react-notion-x'
 
 /**
- * 整个站点的核心组件
- * 将Notion数据渲染成网页
+ * 전체 사이트의 핵심 컴포넌트
+ * Notion 데이터를 웹페이지로 렌더링합니다.
  * @param {*} param0
  * @returns
  */
 const NotionPage = ({ post, className }) => {
-  // 是否关闭数据库和画册的点击跳转
+  // 데이터베이스 및 갤러리 뷰의 클릭 이동 비활성화 여부
   const POST_DISABLE_GALLERY_CLICK = siteConfig('POST_DISABLE_GALLERY_CLICK')
   const POST_DISABLE_DATABASE_CLICK = siteConfig('POST_DISABLE_DATABASE_CLICK')
   const SPOILER_TEXT_TAG = siteConfig('SPOILER_TEXT_TAG')
@@ -29,27 +29,27 @@ const NotionPage = ({ post, className }) => {
 
   const zoomRef = useRef(zoom ? zoom.clone() : null)
   const IMAGE_ZOOM_IN_WIDTH = siteConfig('IMAGE_ZOOM_IN_WIDTH', 1200)
-  // 页面首次打开时执行的勾子
+
+  // 페이지가 처음 열릴 때 실행
   useEffect(() => {
-    // 检测当前的url并自动滚动到对应目标
+    // 현재 URL을 감지하여 해당 위치(Hash)로 자동 스크롤
     autoScrollToHash()
   }, [])
 
-  // 页面文章发生变化时会执行的勾子
+  // 게시글 데이터가 변경될 때 실행
   useEffect(() => {
-    // 相册视图点击禁止跳转，只能放大查看图片
+    // 갤러리 뷰 클릭 시 링크 이동 금지, 이미지 확대만 가능하도록 설정
     if (POST_DISABLE_GALLERY_CLICK) {
-      // 针对页面中的gallery视图，点击后是放大图片还是跳转到gallery的内部页面
       processGalleryImg(zoomRef?.current)
     }
 
-    // 页内数据库点击禁止跳转，只能查看
+    // 페이지 내 데이터베이스 클릭 시 링크 이동 금지
     if (POST_DISABLE_DATABASE_CLICK) {
       processDisableDatabaseUrl()
     }
 
     /**
-     * 放大查看图片时替换成高清图像
+     * 이미지 확대 시 고해상도 이미지로 교체
      */
     const observer = new MutationObserver((mutationsList, observer) => {
       mutationsList.forEach(mutation => {
@@ -58,11 +58,9 @@ const NotionPage = ({ post, className }) => {
           mutation.attributeName === 'class'
         ) {
           if (mutation.target.classList.contains('medium-zoom-image--opened')) {
-            // 等待动画完成后替换为更高清的图像
+            // 애니메이션 완료 후 고해상도 이미지로 교체
             setTimeout(() => {
-              // 获取该元素的 src 属性
               const src = mutation?.target?.getAttribute('src')
-              //   替换为更高清的图像
               mutation?.target?.setAttribute(
                 'src',
                 compressImage(src, IMAGE_ZOOM_IN_WIDTH)
@@ -73,7 +71,7 @@ const NotionPage = ({ post, className }) => {
       })
     })
 
-    // 监视页面元素和属性变化
+    // 페이지 요소 및 속성 변화 감시
     observer.observe(document.body, {
       attributes: true,
       subtree: true,
@@ -86,7 +84,7 @@ const NotionPage = ({ post, className }) => {
   }, [post])
 
   useEffect(() => {
-    // Spoiler文本功能
+    // 스포일러 텍스트 기능
     if (SPOILER_TEXT_TAG) {
       import('lodash/escapeRegExp').then(escapeRegExp => {
         Promise.all([
@@ -99,25 +97,18 @@ const NotionPage = ({ post, className }) => {
       })
     }
 
-    // 查找所有具有 'notion-collection-page-properties' 类的元素,删除notion自带的页面properties
+    // Notion 자체 페이지 속성(notion-collection-page-properties) 제거
     const timer = setTimeout(() => {
-      // 查找所有具有 'notion-collection-page-properties' 类的元素
       const elements = document.querySelectorAll(
         '.notion-collection-page-properties'
       )
-
-      // 遍历这些元素并将其从 DOM 中移除
       elements?.forEach(element => {
         element?.remove()
       })
-    }, 1000) // 1000 毫秒 = 1 秒
+    }, 1000)
 
-    // 清理定时器，防止组件卸载时执行
     return () => clearTimeout(timer)
   }, [post])
-
-  // const cleanBlockMap = cleanBlocksWithWarn(post?.blockMap);
-  // console.log('NotionPage render with post:', post);
 
   return (
     <div
@@ -143,9 +134,8 @@ const NotionPage = ({ post, className }) => {
   )
 }
 
-
 /**
- * 页面的数据库链接禁止跳转，只能查看
+ * 페이지 내 데이터베이스 링크 이동 비활성화
  */
 const processDisableDatabaseUrl = () => {
   if (isBrowser) {
@@ -157,7 +147,7 @@ const processDisableDatabaseUrl = () => {
 }
 
 /**
- * gallery视图，点击后是放大图片还是跳转到gallery的内部页面
+ * 갤러리 뷰 설정: 클릭 시 이미지 확대 여부 결정
  */
 const processGalleryImg = zoom => {
   setTimeout(() => {
@@ -180,11 +170,10 @@ const processGalleryImg = zoom => {
 }
 
 /**
- * 根据url参数自动滚动到锚位置
+ * URL 파라미터에 따라 앵커 위치로 자동 스크롤
  */
 const autoScrollToHash = () => {
   setTimeout(() => {
-    // 跳转到指定标题
     const hash = window?.location?.hash
     const needToJumpToTitle = hash && hash.length > 0
     if (needToJumpToTitle) {
@@ -198,17 +187,16 @@ const autoScrollToHash = () => {
 }
 
 /**
- * 将id映射成博文内部链接。
+ * ID를 게시글 내부 링크로 매핑
  * @param {*} id
  * @returns
  */
 const mapPageUrl = id => {
-  // return 'https://www.notion.so/' + id.replace(/-/g, '')
   return '/' + id.replace(/-/g, '')
 }
 
 /**
- * 缩放
+ * 브라우저 너비에 따른 이미지 줌 마진 설정
  * @returns
  */
 function getMediumZoomMargin() {
@@ -229,7 +217,7 @@ function getMediumZoomMargin() {
   }
 }
 
-// 代码
+// 코드 블록 컴포넌트 로드
 const Code = dynamic(
   () =>
     import('react-notion-x/build/third-party/code').then(m => {
@@ -238,48 +226,43 @@ const Code = dynamic(
   { ssr: false }
 )
 
-// 公式
+// 수식 컴포넌트 로드
 const Equation = dynamic(
   () =>
     import('@/components/Equation').then(async m => {
-      // 化学方程式
+      // 화학식 지원 플러그인
       await import('@/lib/plugins/mhchem')
       return m.Equation
     }),
   { ssr: false }
 )
 
-// 原版文档
-// const Pdf = dynamic(
-//   () => import('react-notion-x/build/third-party/pdf').then(m => m.Pdf),
-//   {
-//     ssr: false
-//   }
-// )
+// PDF 컴포넌트 로드
 const Pdf = dynamic(() => import('@/components/Pdf').then(m => m.Pdf), {
   ssr: false
 })
 
-// 美化代码 from: https://github.com/txs
+// PrismMac 코드 블록 스타일링
 const PrismMac = dynamic(() => import('@/components/PrismMac'), {
   ssr: false
 })
 
 /**
- * tweet嵌入
+ * 트윗 임베드
  */
 const TweetEmbed = dynamic(() => import('react-tweet-embed'), {
   ssr: false
 })
 
 /**
- * 文内google广告
+ * 구글 애드센스 본문 광고
  */
 const AdEmbed = dynamic(
   () => import('@/components/GoogleAdsense').then(m => m.AdEmbed),
   { ssr: true }
 )
 
+// 컬렉션(DB) 컴포넌트 로드
 const Collection = dynamic(
   () =>
     import('react-notion-x/build/third-party/collection').then(
@@ -290,6 +273,7 @@ const Collection = dynamic(
   }
 )
 
+// 모달 컴포넌트 로드
 const Modal = dynamic(
   () => import('react-notion-x/build/third-party/modal').then(m => m.Modal),
   { ssr: false }

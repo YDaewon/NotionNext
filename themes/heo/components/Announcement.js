@@ -5,7 +5,7 @@ const NotionPage = dynamic(() => import('@/components/NotionPage'))
 const Announcement = ({ post, className }) => {
   if (post?.blockMap) {
     return (
-      <div>
+      <div className={className}>
         {post && (
           <div id='announcement-content'>
             <NotionPage post={post} />

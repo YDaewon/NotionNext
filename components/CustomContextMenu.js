@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 /**
- * 自定义右键菜单
+ * 커스텀 우클릭 메뉴
  * @param {*} props
  * @returns
  */
@@ -22,8 +22,9 @@ export default function CustomContextMenu(props) {
 
   const { allNavPages } = props
   const router = useRouter()
+
   /**
-   * 随机跳转文章
+   * 랜덤 게시글로 이동
    */
   function handleJumpToRandomPost() {
     const randomIndex = Math.floor(Math.random() * allNavPages.length)
@@ -43,7 +44,7 @@ export default function CustomContextMenu(props) {
   useEffect(() => {
     const handleContextMenu = event => {
       event.preventDefault()
-      // 计算点击位置加菜单宽高是否超出屏幕，如果超出则贴边弹出
+      // 클릭 위치와 메뉴 너비/높이를 계산하여 화면 밖으로 나가지 않도록 조정
       const x =
         event.clientX < windowSize.width - width
           ? event.clientX
@@ -57,7 +58,7 @@ export default function CustomContextMenu(props) {
     }
 
     /**
-     * 鼠标点击即关闭菜单
+     * 마우스 클릭 시 메뉴 닫기
      */
     const handleClick = event => {
       setShow(false)
@@ -93,26 +94,25 @@ export default function CustomContextMenu(props) {
     navigator.clipboard
       .writeText(url)
       .then(() => {
-        // console.log('页面地址已复制')
         alert(`${locale.COMMON.PAGE_URL_COPIED} : ${url}`)
       })
       .catch(error => {
-        console.error('复制页面地址失败:', error)
+        console.error('페이지 주소 복사 실패:', error)
       })
   }
 
   /**
-   * 切换主题
+   * 테마 전환
    */
   function handleChangeTheme() {
-    const randomTheme = THEMES[Math.floor(Math.random() * THEMES.length)] // 从THEMES数组中 随机取一个主题
+    const randomTheme = THEMES[Math.floor(Math.random() * THEMES.length)]
     const query = router.query
     query.theme = randomTheme
     router.push({ pathname: router.pathname, query })
   }
 
   /**
-   * 复制内容
+   * 텍스트 복사
    */
   function handleCopy() {
     const selectedText = document.getSelection().toString()
@@ -125,9 +125,6 @@ export default function CustomContextMenu(props) {
       if (tempInput && tempInput.parentNode && tempInput.parentNode.contains(tempInput)) {
         tempInput.parentNode.removeChild(tempInput);
       }
-      // alert("Text copied: " + selectedText);
-    } else {
-      // alert("Please select some text first.");
     }
   }
 
@@ -140,7 +137,7 @@ export default function CustomContextMenu(props) {
     htmlElement.classList?.add(newStatus ? 'dark' : 'light')
   }
 
-  // 一些配置变量
+  // 설정값 읽기
   const CUSTOM_RIGHT_CLICK_CONTEXT_MENU_RANDOM_POST = siteConfig(
     'CUSTOM_RIGHT_CLICK_CONTEXT_MENU_RANDOM_POST'
   )
@@ -165,9 +162,9 @@ export default function CustomContextMenu(props) {
       ref={menuRef}
       style={{ top: position.y, left: position.x }}
       className={`${show ? '' : 'invisible opacity-0'} select-none transition-opacity duration-200 fixed z-50`}>
-      {/* 菜单内容 */}
+      {/* 메뉴 내용 */}
       <div className='rounded-xl w-52 dark:hover:border-yellow-600 bg-white dark:bg-[#040404] dark:text-gray-200 dark:border-gray-600 p-3 border drop-shadow-lg flex-col duration-300 transition-colors'>
-        {/* 顶部导航按钮 */}
+        {/* 네비게이션 버튼 (상단) */}
         <div className='flex justify-between'>
           <i
             onClick={handleBack}
@@ -185,7 +182,7 @@ export default function CustomContextMenu(props) {
 
         <hr className='my-2 border-dashed' />
 
-        {/* 跳转导航按钮 */}
+        {/* 바로가기 버튼 */}
         <div className='w-full px-2'>
           {CUSTOM_RIGHT_CLICK_CONTEXT_MENU_RANDOM_POST && (
             <div
@@ -220,7 +217,7 @@ export default function CustomContextMenu(props) {
 
         <hr className='my-2 border-dashed' />
 
-        {/* 功能按钮 */}
+        {/* 기능 버튼 */}
         <div className='w-full px-2'>
           {CAN_COPY && (
             <div

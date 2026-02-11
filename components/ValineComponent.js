@@ -9,8 +9,8 @@ const ValineComponent = ({ path }) => {
       const Valine = window.Valine
       // eslint-disable-next-line no-unused-vars
       const valine = new Valine({
-        el: '#valine', // 容器元素
-        lang: siteConfig('LANG'), // 用于手动设定评论区语言，支持的语言列表 https://github.com/imaegoo/twikoo/blob/main/src/client/utils/i18n/index.js
+        el: '#valine', // 컨테이너 요소
+        lang: siteConfig('LANG'), // 댓글 영역 언어 설정
         appId: siteConfig('COMMENT_VALINE_APP_ID'),
         appKey: siteConfig('COMMENT_VALINE_APP_KEY'),
         avatar: '',
@@ -21,7 +21,7 @@ const ValineComponent = ({ path }) => {
         visitor: true
       })
     } catch (error) {
-      console.error('twikoo 加载失败', error)
+      console.error('twikoo 로드 실패', error)
     }
   }
 
@@ -32,7 +32,7 @@ const ValineComponent = ({ path }) => {
   return <div id="valine"></div>
 
   //   const updateValine = url => {
-  //     // 移除旧的评论区，否则会重复渲染。
+  //     // 기존 댓글 섹션을 제거하여 중복 렌더링 방지
   //     const wrapper = document.getElementById('v-wrapper')
   //     const comments = document.getElementById('v-comments')
   //     wrapper.removeChild(comments)
@@ -51,9 +51,9 @@ const ValineComponent = ({ path }) => {
   //     }
   //   }, [])
 
-//   return <div id='v-wrapper'>
-//       <div id='v-comments'></div>
-//   </div>
+  //   return <div id='v-wrapper'>
+  //       <div id='v-comments'></div>
+  //   </div>
 }
 
 export default ValineComponent

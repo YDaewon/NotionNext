@@ -2,7 +2,7 @@ import { useGlobal } from '@/lib/global'
 import TagItemMini from './TagItemMini'
 
 /**
- * 标签组
+ * 태그 그룹 컴포넌트
  * @param tags
  * @param currentTag
  * @returns {JSX.Element}

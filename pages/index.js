@@ -9,7 +9,7 @@ import { generateRedirectJson } from '@/lib/utils/redirect'
 import { checkDataFromAlgolia } from '@/lib/plugins/algolia'
 
 /**
- * 首页布局
+ * 메인 페이지 레이아웃
  * @param {*} props
  * @returns
  */
@@ -19,7 +19,7 @@ const Index = props => {
 }
 
 /**
- * SSG 获取数据
+ * SSG (Static Site Generation) 데이터 페칭
  * @returns
  */
 export async function getStaticProps(req) {
@@ -35,9 +35,9 @@ export async function getStaticProps(req) {
     page => page.type === 'Post' && page.status === 'Published'
   )
 
-  // 处理分页
+  // 페이지네이션 처리
   if (siteConfig('POST_LIST_STYLE') === 'scroll') {
-    // 滚动列表默认给前端返回所有数据
+    // 무한 스크롤 스타일은 모든 데이터를 반환
   } else if (siteConfig('POST_LIST_STYLE') === 'page') {
     props.posts = props.posts?.slice(
       0,
@@ -45,7 +45,7 @@ export async function getStaticProps(req) {
     )
   }
 
-  // 预览文章内容
+  // 게시글 본문 미리보기 처리
   if (siteConfig('POST_LIST_PREVIEW', false, props?.NOTION_CONFIG)) {
     for (const i in props.posts) {
       const post = props.posts[i]
@@ -56,20 +56,18 @@ export async function getStaticProps(req) {
     }
   }
 
-  // 生成robotTxt
+  // robots.txt 생성
   generateRobotsTxt(props)
-  // 生成Feed订阅
+  // RSS Feed 생성
   generateRss(props)
-  // 生成
+  // Sitemap.xml 생성
   generateSitemapXml(props)
-  // 检查数据是否需要从algolia删除
+  // Algolia 색인 데이터 동기화 체크
   checkDataFromAlgolia(props)
   if (siteConfig('UUID_REDIRECT', false, props?.NOTION_CONFIG)) {
-    // 生成重定向 JSON
+    // UUID 리다이렉트 JSON 생성
     generateRedirectJson(props)
   }
-
-  // 生成全文索引 - 仅在 yarn build 时执行 && process.env.npm_lifecycle_event === 'build'
 
   delete props.allPages
 
@@ -78,10 +76,10 @@ export async function getStaticProps(req) {
     revalidate: process.env.EXPORT
       ? undefined
       : siteConfig(
-          'NEXT_REVALIDATE_SECOND',
-          BLOG.NEXT_REVALIDATE_SECOND,
-          props.NOTION_CONFIG
-        )
+        'NEXT_REVALIDATE_SECOND',
+        BLOG.NEXT_REVALIDATE_SECOND,
+        props.NOTION_CONFIG
+      )
   }
 }
 

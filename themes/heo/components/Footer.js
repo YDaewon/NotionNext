@@ -4,7 +4,7 @@ import PoweredBy from '@/components/PoweredBy'
 import { siteConfig } from '@/lib/config'
 import SocialButton from './SocialButton'
 /**
- * 页脚
+ * 푸터
  * @returns
  */
 const Footer = () => {
@@ -12,24 +12,15 @@ const Footer = () => {
   const BEI_AN_LINK = siteConfig('BEI_AN_LINK')
   const BIO = siteConfig('BIO')
   return (
-    <footer className='relative flex-shrink-0 bg-white dark:bg-[#1a191d] justify-center text-center m-auto w-full leading-6  text-gray-600 dark:text-gray-100 text-sm'>
-      {/* 颜色过度区 */}
-      <div
-        id='color-transition'
-        className='h-32 bg-gradient-to-b from-[#f7f9fe] to-white  dark:bg-[#1a191d] dark:from-inherit dark:to-inherit'
-      />
-
-      {/* 社交按钮 */}
-      <div className='w-full h-24'>
+    <footer className='relative flex-shrink-0 bg-zinc-100 dark:bg-zinc-900 justify-center text-center m-auto w-full leading-6 text-zinc-600 dark:text-zinc-100 text-sm'>
+      <div className='w-full py-4'>
         <SocialButton />
       </div>
 
-      <br />
-
-      {/* 底部页面信息 */}
+      {/* 하단 페이지 정보 */}
       <div
         id='footer-bottom'
-        className='w-full h-20 flex flex-col p-3 lg:flex-row justify-between px-6 items-center bg-[#f1f3f7] dark:bg-[#21232A] border-t dark:border-t-[#3D3D3F]'>
+        className='w-full h-20 flex flex-col p-3 lg:flex-row justify-between px-6 items-center bg-zinc-200 dark:bg-zinc-800 border-t dark:border-t-zinc-700'>
         <div id='footer-bottom-left' className='text-center lg:text-start'>
           <PoweredBy />
           <div className='flex gap-x-1'>

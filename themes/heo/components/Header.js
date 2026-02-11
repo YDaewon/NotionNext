@@ -12,7 +12,7 @@ import SearchButton from './SearchButton'
 import SlideOver from './SlideOver'
 
 /**
- * 页头：顶部导航
+ * 헤더: 상단 네비게이션
  * @param {*} param0
  * @returns
  */
@@ -30,24 +30,24 @@ const Header = props => {
   }
 
   /**
-   * 根据滚动条，切换导航栏样式
+   * 스크롤바에 따른 네비게이션 스타일 전환
    */
   const scrollTrigger = useCallback(
     throttle(() => {
       const scrollS = window.scrollY
-      // 导航栏设置 白色背景
+      // 네비게이션 바 흰색 배경 설정
       if (scrollS <= 1) {
         setFixedNav(false)
         setBgWhite(false)
         setTextWhite(false)
 
-        // 文章详情页特殊处理
+        // 게시글 상세 페이지 특수 처리
         if (document?.querySelector('#post-bg')) {
           setFixedNav(true)
           setTextWhite(true)
         }
       } else {
-        // 向下滚动后的导航样式
+        // 아래로 스크롤 시 네비게이션 스타일
         setFixedNav(true)
         setTextWhite(false)
         setBgWhite(true)
@@ -58,7 +58,7 @@ const Header = props => {
     scrollTrigger()
   }, [router])
 
-  // 监听滚动
+  // 스크롤 감지
   useEffect(() => {
     window.addEventListener('scroll', scrollTrigger)
     return () => {
@@ -66,7 +66,7 @@ const Header = props => {
     }
   }, [])
 
-  // 导航栏根据滚动轮播菜单内容
+  // 스크롤에 따른 네비게이션 메뉴 내용 슬라이드
   useEffect(() => {
     let prevScrollY = 0
     let ticking = false
@@ -132,23 +132,23 @@ const Header = props => {
         }
       `}</style>
 
-      {/* fixed时留白高度 */}
+      {/* 고정 상태일 때의 여백 높이 */}
       {fixedNav && !document?.querySelector('#post-bg') && (
         <div className='h-16'></div>
       )}
 
-      {/* 顶部导航菜单栏 */}
+      {/* 상단 네비게이션 메뉴 바 */}
       <nav
         id='nav'
         className={`z-20 h-16 top-0 w-full duration-300 transition-all
             ${fixedNav ? 'fixed' : 'relative bg-transparent'} 
             ${textWhite ? 'text-white ' : 'text-black dark:text-white'}  
-            ${navBgWhite ? 'bg-white dark:bg-[#18171d] shadow' : 'bg-transparent'}`}>
+            ${navBgWhite ? 'bg-[#efefef]/90 dark:bg-zinc-900/90 shadow' : 'bg-transparent'}`}>
         <div className='flex h-full mx-auto justify-between items-center max-w-[86rem] px-6'>
-          {/* 左侧logo */}
+          {/* 좌측 로고 */}
           <Logo {...props} />
 
-          {/* 中间菜单 */}
+          {/* 중앙 메뉴 */}
           <div
             id='nav-bar-swipe'
             className={`hidden lg:flex flex-grow flex-col items-center justify-center h-full relative w-full`}>
@@ -165,7 +165,7 @@ const Header = props => {
             </div>
           </div>
 
-          {/* 右侧固定 */}
+          {/* 우측 고정 섹션 */}
           <div className='flex flex-shrink-0 justify-end items-center w-48'>
             <RandomPostButton {...props} />
             <SearchButton {...props} />
@@ -176,7 +176,7 @@ const Header = props => {
             )}
             <ReadingProgress />
 
-            {/* 移动端菜单按钮 */}
+            {/* 모바일 메뉴 버튼 */}
             <div
               onClick={toggleMenuOpen}
               className='flex lg:hidden w-8 justify-center items-center h-8 cursor-pointer'>
@@ -184,7 +184,7 @@ const Header = props => {
             </div>
           </div>
 
-          {/* 右边侧拉抽屉 */}
+          {/* 우측 사이드 드로어 */}
           <SlideOver cRef={slideOverRef} {...props} />
         </div>
       </nav>

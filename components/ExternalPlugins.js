@@ -14,12 +14,12 @@ import { useGlobal } from '@/lib/global'
 import IconFont from './IconFont'
 
 /**
- * 各种插件脚本
+ * 각종 외부 플러그인 및 스크립트 로드 컴포넌트
  * @param {*} props
  * @returns
  */
 const ExternalPlugin = props => {
-  // 读取自Notion的配置
+  // Notion에서 불러온 설정값
   const { NOTION_CONFIG } = props
   const { lang } = useGlobal()
   const DISABLE_PLUGIN = siteConfig('DISABLE_PLUGIN', null, NOTION_CONFIG)
@@ -118,7 +118,7 @@ const ExternalPlugin = props => {
     null,
     NOTION_CONFIG
   )
-  // 默认关闭NProgress
+  // 기본적으로 NProgress 비활성화
   const ENABLE_NPROGRSS = siteConfig('ENABLE_NPROGRSS', false)
   const COZE_BOT_ID = siteConfig('COZE_BOT_ID')
   const HILLTOP_ADS_META_ID = siteConfig(
@@ -132,14 +132,13 @@ const ExternalPlugin = props => {
   const UMAMI_HOST = siteConfig('UMAMI_HOST', null, NOTION_CONFIG)
   const UMAMI_ID = siteConfig('UMAMI_ID', null, NOTION_CONFIG)
 
-  // 自定义样式css和js引入
+  // 커스텀 CSS 및 JS 리소스 로드
   if (isBrowser) {
-    // 初始化AOS动画
-    // 静态导入本地自定义样式
+    // 로컬 커스텀 스타일 로드
     loadExternalResource('/css/custom.css', 'css')
     loadExternalResource('/js/custom.js', 'js')
 
-    // 自动添加图片阴影
+    // 이미지 그림자 효과 자동 추가
     if (IMG_SHADOW) {
       loadExternalResource('/css/img-shadow.css', 'css')
     }
@@ -148,14 +147,14 @@ const ExternalPlugin = props => {
       loadExternalResource(ANIMATE_CSS_URL, 'css')
     }
 
-    // 导入外部自定义脚本
+    // 외부 커스텀 스크립트 로드
     if (CUSTOM_EXTERNAL_JS && CUSTOM_EXTERNAL_JS.length > 0) {
       for (const url of CUSTOM_EXTERNAL_JS) {
         loadExternalResource(url, 'js')
       }
     }
 
-    // 导入外部自定义样式
+    // 외부 커스텀 스타일 로드
     if (CUSTOM_EXTERNAL_CSS && CUSTOM_EXTERNAL_CSS.length > 0) {
       for (const url of CUSTOM_EXTERNAL_CSS) {
         loadExternalResource(url, 'css')
@@ -165,7 +164,7 @@ const ExternalPlugin = props => {
 
   const router = useRouter()
   useEffect(() => {
-    // 异步渲染谷歌广告
+    // 구글 애드센스 비동기 초기화
     if (ADSENSE_GOOGLE_ID) {
       setTimeout(() => {
         initGoogleAdsense(ADSENSE_GOOGLE_ID)
@@ -173,13 +172,13 @@ const ExternalPlugin = props => {
     }
 
     setTimeout(() => {
-      // 映射url
+      // Notion 내부 링크 변환
       convertInnerUrl({ allPages: props?.allNavPages, lang: lang })
     }, 500)
   }, [router])
 
   useEffect(() => {
-    // 执行注入脚本
+    // 글로벌 주입 스크립트 실행
     // eslint-disable-next-line no-eval
     if (GLOBAL_JS && GLOBAL_JS.trim() !== '') {
       // console.log('Inject JS:', GLOBAL_JS);
@@ -193,7 +192,7 @@ const ExternalPlugin = props => {
 
   return (
     <>
-      {/* 全局样式嵌入 */}
+      {/* 글로벌 스타일 적용 */}
       <GlobalStyle />
       {ENABLE_ICON_FONT && <IconFont />}
       {MOUSE_FOLLOW && <MouseFollow />}
@@ -227,11 +226,6 @@ const ExternalPlugin = props => {
       {ANALYTICS_51LA_ID && ANALYTICS_51LA_CK && (
         <>
           <script id='LA_COLLECT' src='//sdk.51.la/js-sdk-pro.min.js' defer />
-          {/* <script async dangerouslySetInnerHTML={{
-              __html: `
-                    LA.init({id:"${ANALYTICS_51LA_ID}",ck:"${ANALYTICS_51LA_CK}",hashMode:true,autoTrack:true})
-                    `
-            }} /> */}
         </>
       )}
 
@@ -283,7 +277,7 @@ const ExternalPlugin = props => {
 
       {COMMENT_DAO_VOICE_ID && (
         <>
-          {/* DaoVoice 反馈 */}
+          {/* DaoVoice 피드백 위젯 */}
           <script
             async
             dangerouslySetInnerHTML={{
@@ -322,7 +316,7 @@ const ExternalPlugin = props => {
         </>
       )}
 
-      {/* HILLTOP广告验证 */}
+      {/* HILLTOP 광고 검증 */}
       {HILLTOP_ADS_META_ID && (
         <Head>
           <meta name={HILLTOP_ADS_META_ID} content={HILLTOP_ADS_META_ID} />
@@ -332,7 +326,7 @@ const ExternalPlugin = props => {
       {AD_WWADS_ID && (
         <>
           <Head>
-            {/* 提前连接到广告服务器 */}
+            {/* 광고 서버 사전 연결 */}
             <link rel='preconnect' href='https://cdn.wwads.cn' />
           </Head>
           <ExternalScript
@@ -342,15 +336,13 @@ const ExternalPlugin = props => {
         </>
       )}
 
-      {/* {COMMENT_TWIKOO_ENV_ID && <script defer src={COMMENT_TWIKOO_CDN_URL} />} */}
-
       {COMMENT_ARTALK_SERVER && <script defer src={COMMENT_ARTALK_JS} />}
 
       {COMMENT_TIDIO_ID && (
         <script async src={`//code.tidio.co/${COMMENT_TIDIO_ID}.js`} />
       )}
 
-      {/* gitter聊天室 */}
+      {/* Gitter 채팅방 */}
       {COMMENT_GITTER_ROOM && (
         <>
           <script
@@ -371,7 +363,7 @@ const ExternalPlugin = props => {
         </>
       )}
 
-      {/* 百度统计 */}
+      {/* Baidu 분석 */}
       {ANALYTICS_BAIDU_ID && (
         <script
           async
@@ -389,7 +381,7 @@ const ExternalPlugin = props => {
         />
       )}
 
-      {/* 站长统计 */}
+      {/* CNZZ 분석 */}
       {ANALYTICS_CNZZ_ID && (
         <script
           async
@@ -401,12 +393,12 @@ const ExternalPlugin = props => {
         />
       )}
 
-      {/* UMAMI 统计 */}
+      {/* UMAMI 분석 */}
       {UMAMI_ID && (
         <script async defer src={UMAMI_HOST} data-website-id={UMAMI_ID}></script>
       )}
 
-      {/* 谷歌统计 */}
+      {/* Google Analytics */}
       {ANALYTICS_GOOGLE_ID && (
         <>
           <script
@@ -429,7 +421,7 @@ const ExternalPlugin = props => {
         </>
       )}
 
-      {/* Matomo 统计 */}
+      {/* Matomo 분석 */}
       {MATOMO_HOST_URL && MATOMO_SITE_ID && (
         <script
           async

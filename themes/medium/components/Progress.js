@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { isBrowser } from '@/lib/utils'
 
 /**
- * 顶部页面阅读进度条
+ * 페이지 상단 읽기 진행률 표시줄
  * @returns {JSX.Element}
  * @constructor
  */

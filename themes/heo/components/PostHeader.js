@@ -8,7 +8,7 @@ import SmartLink from '@/components/SmartLink'
 import WavesArea from './WavesArea'
 
 /**
- * 文章页头
+ * 게시글 헤더 영역
  * @param {*} param0
  * @returns
  */
@@ -16,7 +16,7 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
   if (!post) {
     return <></>
   }
-  // 文章头图
+  // 게시글 커버 이미지
   const headerImage = post?.pageCover ? post.pageCover : siteInfo?.pageCover
   const ANALYTICS_BUSUANZI_ENABLE = siteConfig('ANALYTICS_BUSUANZI_ENABLE')
   return (
@@ -32,13 +32,13 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
           top: 0;
           left: 0;
           box-shadow: 110px -130px 500px 100px
-            ${isDarkMode ? '#CA8A04' : '#0060e0'} inset;
+            ${isDarkMode ? '#0a0a0a' : '#3f3f46'} inset;
         }
       `}</style>
 
       <div
-        className={`${isDarkMode ? 'bg-[#CA8A04]' : 'bg-[#0060e0]'} absolute top-0 w-full h-full py-10 flex justify-center items-center`}>
-        {/* 文章背景图 */}
+        className={`${isDarkMode ? 'bg-[#0a0a0a]' : 'bg-[#3f3f46]'} absolute top-0 w-full h-full py-10 flex justify-center items-center`}>
+        {/* 게시글 배경 이미지 (흐림 효과) */}
         <div
           id='post-cover-wrapper'
           style={{
@@ -52,11 +52,11 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
           />
         </div>
 
-        {/* 文章文字描述 */}
+        {/* 게시글 정보 텍스트 */}
         <div
           id='post-info'
           className='absolute top-48 z-10 flex flex-col space-y-4 lg:-mt-12 w-full max-w-[86rem] px-5'>
-          {/* 分类+标签 */}
+          {/* 카테고리 및 태그 */}
           <div className='flex justify-center md:justify-start items-center gap-4'>
             {post.category && (
               <>
@@ -65,7 +65,7 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
                   className='mr-4'
                   passHref
                   legacyBehavior>
-                  <div className='cursor-pointer font-sm font-bold px-3 py-1 rounded-lg  hover:bg-white text-white bg-blue-500 dark:bg-yellow-500 hover:text-blue-500 duration-200 '>
+                  <div className='cursor-pointer font-sm font-bold px-3 py-1 rounded-lg  hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-100 dark:text-zinc-900 bg-zinc-900 dark:bg-zinc-100 hover:text-zinc-900 dark:hover:text-zinc-100 duration-200 '>
                     {post.category}
                   </div>
                 </SmartLink>
@@ -92,7 +92,7 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
             )}
           </div>
 
-          {/* 文章Title */}
+          {/* 게시글 제목 */}
           <div className='max-w-5xl font-bold text-3xl lg:text-5xl md:leading-snug shadow-text-md flex  justify-center md:justify-start text-white'>
             {siteConfig('POST_TITLE_ICON') && (
               <NotionIcon icon={post.pageIcon} />
@@ -100,7 +100,7 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
             {post.title}
           </div>
 
-          {/* 标题底部补充信息 */}
+          {/* 메타 데이터 (날짜, 글자 수 등) */}
           <section className='flex-wrap dark:text-gray-200 text-opacity-70 shadow-text-md flex text-sm  justify-center md:justify-start mt-4 text-white font-light leading-8'>
             <div className='flex justify-center '>
               <div className='mr-2'>
@@ -127,7 +127,7 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
               </div>
             </div>
 
-            {/* 阅读统计 */}
+            {/* 조회수 (Busuanzi) */}
             {ANALYTICS_BUSUANZI_ENABLE && (
               <div className='busuanzi_container_page_pv font-light mr-2'>
                 <i className='fa-solid fa-fire-flame-curved'></i>{' '}

@@ -31,7 +31,7 @@ export const MenuBarMobile = props => {
     links = links.concat(customNav)
   }
 
-  // 如果 开启自定义菜单，则不再使用 Page生成菜单。
+  // 커스텀 메뉴를 사용할 경우, 페이지 기반 메뉴 대신 커스텀 메뉴를 사용합니다.
   if (siteConfig('CUSTOM_MENU')) {
     links = customMenu
   }

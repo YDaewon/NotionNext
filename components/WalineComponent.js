@@ -1,4 +1,4 @@
-import  { createRef, useEffect } from 'react'
+import { createRef, useEffect } from 'react'
 import { init } from '@waline/client'
 import { useRouter } from 'next/router'
 import '@waline/client/style'
@@ -7,6 +7,7 @@ import { siteConfig } from '@/lib/config'
 const path = ''
 let waline = null
 /**
+ * Waline 댓글 컴포넌트
  * @see https://waline.js.org/guide/get-started.html
  * @param {*} props
  * @returns
@@ -38,14 +39,14 @@ const WalineComponent = (props) => {
       })
     }
 
-    // 跳转评论
+    // 경로 변경 시 댓글 업데이트
     router.events.on('routeChangeComplete', updateWaline)
     const anchor = window.location.hash
     if (anchor) {
-      // 选择需要观察变动的节点
+      // 변동을 관찰할 노드 선택
       const targetNode = document.getElementsByClassName('wl-cards')[0]
 
-      // 当观察到变动时执行的回调函数
+      // 변동 관찰 시 실행될 콜백 함수
       const mutationCallback = (mutations) => {
         for (const mutation of mutations) {
           const type = mutation.type
@@ -63,7 +64,7 @@ const WalineComponent = (props) => {
         }
       }
 
-      // 观察子节点 变化
+      // 자식 노드 변화 관찰 시작
       const observer = new MutationObserver(mutationCallback)
       observer.observe(targetNode, { childList: true })
     }

@@ -3,7 +3,7 @@ import { useRef } from 'react'
 import { handleEmailClick } from '@/lib/plugins/mailEncrypt'
 
 /**
- * 社交联系方式按钮组
+ * 소셜 미디어 연락처 버튼 그룹
  * @returns {JSX.Element}
  * @constructor
  */

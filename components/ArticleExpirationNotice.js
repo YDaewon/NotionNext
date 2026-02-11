@@ -1,11 +1,11 @@
 import { siteConfig } from '@/lib/config'
 
 /**
- * 文章过期提醒组件
- * 当文章超过指定天数时显示提醒
- * @param {Object} props - 组件属性
- * @param {Object} props.post - 文章数据
- * @param {number} [props.daysThreshold=90] - 过期阈值（天）
+ * 게시글 만료 알림 컴포넌트
+ * 게시글이 지정된 기간을 초과했을 때 알림을 표시합니다.
+ * @param {Object} props - 컴포넌트 속성
+ * @param {Object} props.post - 게시글 데이터
+ * @param {number} [props.daysThreshold=90] - 만료 기준일 (일)
  * @returns {JSX.Element|null}
  */
 export default function ArticleExpirationNotice({
@@ -20,7 +20,7 @@ export default function ArticleExpirationNotice({
     return null
   }
 
-  const postDate = new Date(post.lastEditedDay)
+  const postDate = new Date(post.lastEditedDate || post.lastEditedDay)
   const today = new Date()
   const diffTime = Math.abs(today - postDate)
   const daysOld = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
@@ -30,15 +30,15 @@ export default function ArticleExpirationNotice({
     return null
   }
 
-  // 使用 %%DAYS%% 作为占位符
+  // %%DAYS%%를 자리 표시자로 사용
   const articleExpirationMessage = siteConfig(
     'ARTICLE_EXPIRATION_MESSAGE',
-    '这篇文章发布于 %%DAYS%% 天前，内容可能已过时，请谨慎参考。'
+    '이 게시물은 작성된 지 %%DAYS%% 일이 지났습니다. 내용이 최신 정보와 다를 수 있으니 주의해서 참고해 주세요.'
   )
   const articleExpirationMessageParts =
     articleExpirationMessage.split('%%DAYS%%')
 
-  // 直接返回 JSX 内容
+  // JSX 반환
   return (
     <div
       className={
@@ -48,7 +48,7 @@ export default function ArticleExpirationNotice({
         <i className='fas fa-exclamation-triangle text-blue-500 dark:text-blue-400 mt-0.5 mr-2 flex-shrink-0' />
         <div className='ml-1'>
           <div className='text-blue-600 dark:text-blue-400 font-medium'>
-            {siteConfig('ARTICLE_EXPIRATION_TITLE', '温馨提醒')}
+            {siteConfig('ARTICLE_EXPIRATION_TITLE', '알림')}
           </div>
           <div className='flex items-center mt-1 text-sm text-gray-700 dark:text-gray-300'>
             <i className='far fa-clock text-red-500 dark:text-red-400 mr-1' />

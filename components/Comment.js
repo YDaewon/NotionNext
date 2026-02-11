@@ -7,8 +7,8 @@ import { useEffect, useRef, useState } from 'react'
 import Artalk from './Artalk'
 
 /**
- * 评论组件
- * 只有当前组件在浏览器可见范围内才会加载内容
+ * 댓글 컴포넌트
+ * 브라우저의 가시 범위 내에 있을 때만 내용을 로드합니다.
  * @param {*} param0
  * @returns
  */
@@ -28,7 +28,7 @@ const Comment = ({ frontMatter, className }) => {
   const COMMENT_WEBMENTION_ENABLE = siteConfig('COMMENT_WEBMENTION_ENABLE')
 
   useEffect(() => {
-    // Check if the component is visible in the viewport
+    // 컴포넌트가 뷰포트에 표시되는지 확인
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -49,7 +49,7 @@ const Comment = ({ frontMatter, className }) => {
     }
   }, [frontMatter])
 
-  // 当连接中有特殊参数时跳转到评论区
+  // URL에 특수 파라미터가 있을 경우 댓글 섹션으로 이동
   if (
     isBrowser &&
     ('giscus' in router.query || router.query.target === 'comment')
@@ -71,7 +71,7 @@ const Comment = ({ frontMatter, className }) => {
     return null
   }
 
-  // 特定文章关闭评论区
+  // 특정 게시글에서 댓글 섹션 비활성화
   if (frontMatter?.comment === 'Hide') {
     return null
   }
@@ -82,10 +82,10 @@ const Comment = ({ frontMatter, className }) => {
       id='comment'
       ref={commentRef}
       className={`comment mt-5 text-gray-800 dark:text-gray-300 ${className || ''}`}>
-      {/* 延迟加载评论区 */}
+      {/* 댓글 섹션 지연 로딩 */}
       {!shouldLoad && (
         <div className='text-center'>
-          Loading...
+          로딩 중...
           <i className='fas fa-spinner animate-spin text-3xl ' />
         </div>
       )}

@@ -2,7 +2,7 @@ import { useMediumGlobal } from '..'
 import Catalog from './Catalog'
 
 /**
- * 悬浮抽屉目录
+ * 플로팅 목차 드로어 컴포넌트
  * @param toc
  * @param post
  * @returns {JSX.Element}
@@ -16,7 +16,7 @@ const TocDrawer = ({ post, cRef }) => {
   return (
     <>
       <div id='medium-toc-float' className='fixed top-0 right-0 z-40'>
-        {/* 侧边菜单 */}
+        {/* 측면 메뉴 */}
         <div
           className={
             (tocVisible
@@ -33,7 +33,7 @@ const TocDrawer = ({ post, cRef }) => {
           )}
         </div>
       </div>
-      {/* 背景蒙版 */}
+      {/* 배경 오버레이 */}
       <div
         id='right-drawer-background'
         className={

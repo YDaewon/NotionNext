@@ -5,10 +5,10 @@ import BlogPostListEmpty from './BlogPostListEmpty'
 import PaginationSimple from './PaginationSimple'
 
 /**
- * 文章列表分页表格
- * @param page 当前页
- * @param posts 所有文章
- * @param tags 所有标签
+ * 페이지네이션이 적용된 게시글 목록 컴포넌트
+ * @param page 현재 페이지
+ * @param posts 게시글 목록
+ * @param postCount 전체 게시글 수
  * @returns {JSX.Element}
  * @constructor
  */
@@ -24,7 +24,7 @@ const BlogPostListPage = ({ page = 1, posts = [], postCount }) => {
   return (
     <div className='w-full justify-center'>
       <div id='posts-wrapper'>
-        {/* 文章列表 */}
+        {/* 게시글 목록 */}
         {posts?.map(post => (
           <BlogPostCard key={post.id} post={post} />
         ))}

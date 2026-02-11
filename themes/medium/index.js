@@ -35,13 +35,13 @@ import TopNavBar from './components/TopNavBar'
 import CONFIG from './config'
 import { Style } from './style'
 
-// 主题全局状态
+// 테마 전역 상태
 const ThemeGlobalMedium = createContext()
 export const useMediumGlobal = () => useContext(ThemeGlobalMedium)
 
 /**
- * 基础布局
- * 采用左右两侧布局，移动端使用顶部导航栏
+ * 기본 레이아웃
+ * 좌우 2컬럼 레이아웃을 채택하며, 모바일에서는 상단 내비게이션 바를 사용합니다.
  * @returns {JSX.Element}
  * @constructor
  */
@@ -69,7 +69,7 @@ const LayoutBase = props => {
 
   return (
     <ThemeGlobalMedium.Provider value={{ tocVisible, changeTocVisible }}>
-      {/* CSS样式 */}
+      {/* CSS 스타일 */}
       <Style />
 
       <div
@@ -82,12 +82,12 @@ const LayoutBase = props => {
               ? 'flex-row-reverse'
               : '') + 'relative flex justify-between w-full h-full mx-auto'
           }>
-          {/* 桌面端左侧菜单 */}
+          {/* 데스크톱 왼쪽 메뉴 (현재 비활성화) */}
           {/* <LeftMenuBar/> */}
 
-          {/* 主区 */}
+          {/* 메인 영역 */}
           <div id='container-wrapper' className='w-full relative z-10'>
-            {/* 顶部导航栏 */}
+            {/* 상단 내비게이션 바 */}
             <TopNavBar {...props} />
 
             <div
@@ -110,11 +110,11 @@ const LayoutBase = props => {
               <JumpToTopButton />
             </div>
 
-            {/* 底部 */}
+            {/* 푸터 */}
             <Footer title={siteConfig('TITLE')} />
           </div>
 
-          {/* 桌面端右侧 */}
+          {/* 데스크톱 오른쪽 패널 */}
           {fullWidth ? null : (
             <div
               className={`hidden xl:block border-l dark:border-transparent w-80 flex-shrink-0 relative z-10 ${siteConfig('MEDIUM_RIGHT_PANEL_DARK', null, CONFIG) ? 'bg-hexo-black-gray dark' : ''}`}>
@@ -137,7 +137,7 @@ const LayoutBase = props => {
           )}
         </main>
 
-        {/* 移动端底部导航栏 */}
+        {/* 모바일 하단 내비게이션 바 */}
         <BottomMenuBar {...props} className='block md:hidden' />
       </div>
     </ThemeGlobalMedium.Provider>
@@ -145,8 +145,8 @@ const LayoutBase = props => {
 }
 
 /**
- * 首页
- * 首页就是一个博客列表
+ * 프로젝트 홈 페이지
+ * 홈 페이지는 블로그 게시글 목록으로 구성됩니다.
  * @param {*} props
  * @returns
  */
@@ -155,7 +155,7 @@ const LayoutIndex = props => {
 }
 
 /**
- * 博客列表
+ * 블로그 게시글 목록 레이아웃
  * @returns
  */
 const LayoutPostList = props => {
@@ -171,7 +171,7 @@ const LayoutPostList = props => {
 }
 
 /**
- * 文章详情
+ * 게시글 상세 페이지
  * @param {*} props
  * @returns
  */
@@ -187,7 +187,7 @@ const LayoutSlug = props => {
   const router = useRouter()
   const waiting404 = siteConfig('POST_WAITING_TIME_FOR_404') * 1000
   useEffect(() => {
-    // 404
+    // 404 페이지 리다이렉트 처리
     if (!post) {
       setTimeout(
         () => {
@@ -197,7 +197,7 @@ const LayoutSlug = props => {
             )
             if (!article) {
               router.push('/404').then(() => {
-                console.warn('找不到页面', router.asPath)
+                console.warn('페이지를 찾을 수 없습니다:', router.asPath)
               })
             }
           }
@@ -209,24 +209,24 @@ const LayoutSlug = props => {
 
   return (
     <div>
-      {/* 文章锁 */}
+      {/* 게시글 잠금(비밀번호) */}
       {lock && <ArticleLock validPassword={validPassword} />}
 
       {!lock && post && (
         <div>
-          {/* 文章信息 */}
+          {/* 게시글 정보 */}
           <ArticleInfo {...props} />
 
-          {/* Notion文章主体 */}
+          {/* Notion 본문 렌더링 */}
           <article id='article-wrapper' className='px-1 max-w-4xl'>
             {post && <NotionPage post={post} />}
           </article>
 
-          {/* 文章底部区域  */}
+          {/* 게시글 하단 영역 */}
           <section>
-            {/* 分享 */}
+            {/* 공유 버튼 */}
             <ShareBar post={post} />
-            {/* 文章分类和标签信息 */}
+            {/* 카테고리 및 태그 정보 */}
             <div className='flex justify-between'>
               {siteConfig('MEDIUM_POST_DETAIL_CATEGORY', null, CONFIG) &&
                 post?.category && <CategoryItem category={post?.category} />}
@@ -237,13 +237,13 @@ const LayoutSlug = props => {
                   ))}
               </div>
             </div>
-            {/* 上一篇下一篇文章 */}
+            {/* 이전/다음 글 내비게이션 */}
             {post?.type === 'Post' && <ArticleAround prev={prev} next={next} />}
-            {/* 评论区 */}
+            {/* 댓글 섹션 */}
             <Comment frontMatter={post} />
           </section>
 
-          {/* 移动端目录 */}
+          {/* 모바일용 목차 드로어 */}
           <TocDrawer {...props} />
         </div>
       )}
@@ -252,7 +252,7 @@ const LayoutSlug = props => {
 }
 
 /**
- * 搜索
+ * 검색 페이지
  * @param {*} props
  * @returns
  */
@@ -277,7 +277,7 @@ const LayoutSearch = props => {
 
   return (
     <>
-      {/* 搜索导航栏 */}
+      {/* 검색 상단 바 */}
       <div className='py-12'>
         <div className='pb-4 w-full'>{locale.NAV.SEARCH}</div>
         <SearchInput currentSearch={currentSearch} {...props} />
@@ -289,7 +289,7 @@ const LayoutSearch = props => {
         )}
       </div>
 
-      {/* 文章列表 */}
+      {/* 검색 결과 목록 */}
       {currentSearch && (
         <div>
           {siteConfig('POST_LIST_STYLE') === 'page' ? (
@@ -304,7 +304,7 @@ const LayoutSearch = props => {
 }
 
 /**
- * 归档
+ * 아카이브 페이지
  * @param {*} props
  * @returns
  */
@@ -326,21 +326,21 @@ const LayoutArchive = props => {
 }
 
 /**
- * 404
+ * 404 페이지
  * @param {*} props
  * @returns
  */
 const Layout404 = props => {
   const router = useRouter()
   useEffect(() => {
-    // 延时3秒如果加载失败就返回首页
+    // 3초 후에도 로딩되지 않으면 홈으로 이동
     setTimeout(() => {
       const article =
         typeof document !== 'undefined' &&
         document.getElementById('notion-article')
       if (!article) {
         router.push('/').then(() => {
-          // console.log('找不到页面', router.asPath)
+          // console.log('페이지를 찾을 수 없습니다', router.asPath)
         })
       }
     }, 3000)
@@ -353,7 +353,7 @@ const Layout404 = props => {
             404
           </h2>
           <div className='inline-block text-left h-32 leading-10 items-center'>
-            <h2 className='m-0 p-0'>页面未找到</h2>
+            <h2 className='m-0 p-0'>{locale.COMMON.NOT_FOUND}</h2>
           </div>
         </div>
       </div>
@@ -362,7 +362,7 @@ const Layout404 = props => {
 }
 
 /**
- * 分类列表
+ * 카테고리 인덱스 페이지
  * @param {*} props
  * @returns
  */
@@ -401,7 +401,7 @@ const LayoutCategoryIndex = props => {
 }
 
 /**
- * 标签列表
+ * 태그 인덱스 페이지
  * @param {*} props
  * @returns
  */

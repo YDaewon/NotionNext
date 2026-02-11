@@ -26,12 +26,12 @@ const SearchInput = props => {
       })
       // location.href = '/search/' + key
     } else {
-      router.push({ pathname: '/' }).then(r => {})
+      router.push({ pathname: '/' }).then(r => { })
     }
   }
   const handleKeyUp = e => {
     if (e.keyCode === 13) {
-      // 回车
+      // 엔터
       handleSearch(searchInputRef.current.value)
     } else if (e.keyCode === 27) {
       // ESC
@@ -55,11 +55,11 @@ const SearchInput = props => {
       setShowClean(false)
     }
   }
-  function lockSearchInput () {
+  function lockSearchInput() {
     lock = true
   }
 
-  function unLockSearchInput () {
+  function unLockSearchInput() {
     lock = false
   }
 
@@ -85,9 +85,8 @@ const SearchInput = props => {
         onClick={handleSearch}
       >
         <i
-          className={`hover:text-black transform duration-200 text-gray-500 dark:text-gray-200 cursor-pointer fas ${
-            onLoading ? 'fa-spinner animate-spin' : 'fa-search'
-          }`}
+          className={`hover:text-black transform duration-200 text-gray-500 dark:text-gray-200 cursor-pointer fas ${onLoading ? 'fa-spinner animate-spin' : 'fa-search'
+            }`}
         />
       </div>
 

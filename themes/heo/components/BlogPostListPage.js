@@ -6,10 +6,10 @@ import BlogPostListEmpty from './BlogPostListEmpty'
 import PaginationNumber from './PaginationNumber'
 
 /**
- * 文章列表分页表格
- * @param page 当前页
- * @param posts 所有文章
- * @param tags 所有标签
+ * 게시글 목록 페이지 테이블
+ * @param page 현재 페이지
+ * @param posts 모든 게시글
+ * @param tags 모든 태그
  * @returns {JSX.Element}
  * @constructor
  */
@@ -24,7 +24,7 @@ const BlogPostListPage = ({ page = 1, posts = [], postCount, siteInfo }) => {
   } else {
     return (
       <div id='container' className='w-full'>
-        {/* 文章列表 */}
+        {/* 게시글 목록 */}
         <div
           className={`${POST_TWO_COLS && '2xl:grid 2xl:grid-cols-2'} grid-cols-1 gap-5`}>
           {posts?.map(post => (

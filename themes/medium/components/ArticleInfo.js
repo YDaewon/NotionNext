@@ -4,18 +4,18 @@ import { siteConfig } from '@/lib/config'
 import NotionIcon from '@/components/NotionIcon'
 
 /**
- * 文章详情页介绍
+ * 게시글 상세 페이지의 상단 정보 컴포넌트
  * @param {*} props
  * @returns
  */
 export default function ArticleInfo(props) {
-  const { post, siteInfo } = props
+    const { post, siteInfo } = props
 
-  return (<>
-        {/* title */}
+    return (<>
+        {/* 제목 */}
         <h1 className="text-3xl pt-12  dark:text-gray-300">{siteConfig('POST_TITLE_ICON') && <NotionIcon icon={post?.pageIcon} />}{post?.title}</h1>
 
-        {/* meta */}
+        {/* 메타 데이터 */}
         <section className="py-2 items-center text-sm  px-1">
             <div className='flex flex-wrap text-gray-500 py-1 dark:text-gray-600'>
                 <span className='whitespace-nowrap'> <i className='far fa-calendar mr-2' />{post?.publishDay}</span>

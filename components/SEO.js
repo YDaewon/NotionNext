@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
 /**
- * 页面的Head头，有用于SEO
+ * 페이지의 Head 섹션, SEO 관리에 사용됩니다.
  * @param {*} param0
  * @returns
  */
@@ -22,7 +22,7 @@ const SEO = props => {
   const webFontUrl = siteConfig('FONT_URL')
 
   useEffect(() => {
-    // 使用WebFontLoader字体加载
+    // WebFontLoader를 사용하여 폰트 로드
     loadExternalResource(
       'https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js',
       'js'
@@ -40,7 +40,7 @@ const SEO = props => {
     })
   }, [])
 
-  // SEO关键词
+  // SEO 키워드
   const KEYWORDS = siteConfig('KEYWORDS')
   let keywords = meta?.tags || KEYWORDS
   if (post?.tags && post?.tags?.length > 0) {
@@ -54,8 +54,8 @@ const SEO = props => {
   const title = meta?.title || TITLE
   const description = meta?.description || `${siteInfo?.description}`
   const type = meta?.type || 'website'
-  const lang = siteConfig('LANG').replace('-', '_') // Facebook OpenGraph 要 zh_CN 這樣的格式才抓得到語言
-  const category = meta?.category || KEYWORDS // section 主要是像是 category 這樣的分類，Facebook 用這個來抓連結的分類
+  const lang = siteConfig('LANG').replace('-', '_') // Facebook OpenGraph 형식 적용 (예: ko_KR)
+  const category = meta?.category || KEYWORDS // Facebook 등에서 링크 분류를 위해 사용되는 카테고리
   const favicon = siteConfig('BLOG_FAVICON')
   const BACKGROUND_DARK = siteConfig('BACKGROUND_DARK', '', NOTION_CONFIG)
 
@@ -115,7 +115,7 @@ const SEO = props => {
       <meta name='apple-mobile-web-app-status-bar-style' content='default' />
       <meta name='apple-mobile-web-app-title' content={title} />
 
-      {/* 搜索引擎验证 */}
+      {/* 검색 엔진 인증 */}
       {SEO_GOOGLE_SITE_VERIFICATION && (
         <meta
           name='google-site-verification'
@@ -129,17 +129,17 @@ const SEO = props => {
         />
       )}
 
-      {/* 基础SEO元数据 */}
+      {/* 기본 SEO 메타데이터 */}
       <meta name='keywords' content={keywords} />
       <meta name='description' content={description} />
       <meta name='author' content={AUTHOR} />
       <meta name='generator' content='NotionNext' />
 
-      {/* 语言和地区 */}
+      {/* 언어 및 지역 */}
       <meta httpEquiv='content-language' content={siteConfig('LANG')} />
-      <meta name='geo.region' content={siteConfig('GEO_REGION', 'CN')} />
-      <meta name='geo.country' content={siteConfig('GEO_COUNTRY', 'CN')} />
-      {/* Open Graph 元数据 */}
+      <meta name='geo.region' content={siteConfig('GEO_REGION', 'KR')} />
+      <meta name='geo.country' content={siteConfig('GEO_COUNTRY', 'KR')} />
+      {/* Open Graph 메타데이터 */}
       <meta property='og:locale' content={lang} />
       <meta property='og:title' content={title} />
       <meta property='og:description' content={description} />
@@ -151,7 +151,7 @@ const SEO = props => {
       <meta property='og:site_name' content={siteConfig('TITLE')} />
       <meta property='og:type' content={type} />
 
-      {/* Twitter Card 元数据 */}
+      {/* Twitter Card 메타데이터 */}
       <meta name='twitter:card' content='summary_large_image' />
       <meta name='twitter:site' content={siteConfig('TWITTER_SITE', '@NotionNext')} />
       <meta name='twitter:creator' content={siteConfig('TWITTER_CREATOR', '@NotionNext')} />
@@ -181,7 +181,7 @@ const SEO = props => {
       {ANALYTICS_BUSUANZI_ENABLE && (
         <meta name='referrer' content='no-referrer-when-downgrade' />
       )}
-      {/* 文章特定元数据 */}
+      {/* 게시글 전용 메타데이터 */}
       {meta?.type === 'Post' && (
         <>
           <meta property='article:published_time' content={meta.publishDay} />
@@ -193,7 +193,7 @@ const SEO = props => {
         </>
       )}
 
-      {/* 结构化数据 */}
+      {/* 구조화된 데이터 */}
       <script
         type='application/ld+json'
         dangerouslySetInnerHTML={{
@@ -201,13 +201,13 @@ const SEO = props => {
         }}
       />
 
-      {/* DNS预取和预连接 */}
+      {/* DNS 프리페치 및 프리커넥트 */}
       <link rel='dns-prefetch' href='//fonts.googleapis.com' />
       <link rel='dns-prefetch' href='//www.google-analytics.com' />
       <link rel='dns-prefetch' href='//www.googletagmanager.com' />
       <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='anonymous' />
 
-      {/* 预加载关键资源 */}
+      {/* 주요 리소스 프리로드 */}
       <link rel='preload' href='/fonts/inter-var.woff2' as='font' type='font/woff2' crossOrigin='anonymous' />
 
       {children}
@@ -216,7 +216,7 @@ const SEO = props => {
 }
 
 /**
- * 生成结构化数据
+ * 구조화된 데이터 생성
  * @param {*} meta
  * @param {*} siteInfo
  * @param {*} url
@@ -245,7 +245,7 @@ const generateStructuredData = (meta, siteInfo, url, image, author) => {
     }
   }
 
-  // 如果是文章页面，添加文章结构化数据
+  // 게시글 페이지일 경우 BlogPosting 구조화 데이터 추가
   if (meta?.type === 'Post') {
     return {
       '@context': 'https://schema.org',
@@ -281,7 +281,7 @@ const generateStructuredData = (meta, siteInfo, url, image, author) => {
 }
 
 /**
- * 获取SEO信息
+ * SEO 정보 조회
  * @param {*} props
  * @param {*} router
  */
@@ -382,7 +382,7 @@ const getSEOMeta = (props, router, locale) => {
       return {
         title: post
           ? `${post?.title} | ${siteInfo?.title}`
-          : `${siteInfo?.title} | loading`,
+          : `${siteInfo?.title} | 로딩 중`,
         description: post?.summary,
         type: post?.type,
         slug: post?.slug,

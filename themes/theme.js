@@ -5,45 +5,45 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { getQueryParam, getQueryVariable, isBrowser } from '../lib/utils'
 
-// 在next.config.js中扫描所有主题
+// next.config.js에서 스캔된 모든 테마 목록
 export const { THEMES = [] } = getConfig()?.publicRuntimeConfig || {}
 
 /**
- * 获取主题配置
- * @param {string} themeQuery - 主题查询参数（支持多个主题用逗号分隔）
- * @returns {Promise<object>} 主题配置对象
+ * 테마 설정 가져오기
+ * @param {string} themeQuery - 테마 쿼리 파라미터 (여러 테마일 경우 콤마로 구분)
+ * @returns {Promise<object>} 테마 설정 객체
  */
 export const getThemeConfig = async themeQuery => {
-  // 如果 themeQuery 存在且不等于默认主题，处理多主题情况
+  // themeQuery가 존재하고 기본 테마와 다를 경우 다중 테마 처리
   if (typeof themeQuery === 'string' && themeQuery.trim()) {
-    // 取 themeQuery 中第一个主题（以逗号为分隔符）
+    // themeQuery에서 첫 번째 테마 추출 (콤마 기준)
     const themeName = themeQuery.split(',')[0].trim()
 
-    // 如果 themeQuery 不等于当前默认主题，则加载指定主题的配置
+    // themeQuery가 현재 기본 테마와 다를 경우 지정된 테마 설정 로드
     if (themeName !== BLOG.THEME) {
       try {
-        // 动态导入主题配置
+        // 테마 설정 동적 임포트
         const THEME_CONFIG = await import(`@/themes/${themeName}`)
           .then(m => m.THEME_CONFIG)
           .catch(err => {
-            console.error(`Failed to load theme ${themeName}:`, err)
-            return null // 主题加载失败时返回 null 或者其他默认值
+            console.error(`${themeName} 테마를 로드하지 못했습니다:`, err)
+            return null // 로드 실패 시 null 또는 기본값 반환
           })
 
-        // 如果主题配置加载成功，返回配置
+        // 테마 설정 로드 성공 시 해당 설정 반환
         if (THEME_CONFIG) {
           return THEME_CONFIG
         } else {
-          // 如果加载失败，返回默认主题配置
+          // 로드 실패 시 기본 테마 설정으로 대체
           console.warn(
-            `Loading ${themeName} failed. Falling back to default theme.`
+            `${themeName} 로드 실패. 기본 테마로 돌아갑니다.`
           )
           return ThemeComponents?.THEME_CONFIG
         }
       } catch (error) {
-        // 如果 import 过程中出现异常，返回默认主题配置
+        // 임포트 과정에서 예외 발생 시 기본 테마 설정 반환
         console.error(
-          `Error loading theme configuration for ${themeName}:`,
+          `${themeName} 테마 설정 로드 중 오류 발생:`,
           error
         )
         return ThemeComponents?.THEME_CONFIG
@@ -51,12 +51,12 @@ export const getThemeConfig = async themeQuery => {
     }
   }
 
-  // 如果没有 themeQuery 或 themeQuery 与默认主题相同，返回默认主题配置
+  // themeQuery가 없거나 기본 테마와 같을 경우 기본 설정 반환
   return ThemeComponents?.THEME_CONFIG
 }
 
 /**
- * 加载全局布局
+ * 전체 레이아웃 로드
  * @param {*} theme
  * @returns
  */
@@ -74,7 +74,7 @@ export const getBaseLayoutByTheme = theme => {
 }
 
 /**
- * 动态获取布局
+ * 레이아웃 동적 획득
  * @param {*} props
  */
 export const DynamicLayout = props => {
@@ -84,7 +84,7 @@ export const DynamicLayout = props => {
 }
 
 /**
- * 加载主题文件
+ * 테마 파일 로드
  * @param {*} layoutName
  * @param {*} theme
  * @returns
@@ -98,7 +98,7 @@ export const useLayoutByTheme = ({ layoutName, theme }) => {
   const themeQuery = getQueryParam(router?.asPath, 'theme') || theme
   const isDefaultTheme = !themeQuery || themeQuery === BLOG.THEME
 
-  // 加载非当前默认主题
+  // 기본 테마가 아닌 경우 로드
   if (!isDefaultTheme) {
     const loadThemeComponents = componentsSource => {
       const components =
@@ -117,19 +117,19 @@ export const useLayoutByTheme = ({ layoutName, theme }) => {
 }
 
 /**
- * 根据路径 获取对应的layout名称
+ * 경로에 따른 레이아웃 명칭 획득
  * @param {*} path
  * @returns
  */
 const getLayoutNameByPath = path => {
   const layoutName = LAYOUT_MAPPINGS[path] || 'LayoutSlug'
-  //   console.log('path-layout',path,layoutName)
+  // console.log('경로-레이아웃', path, layoutName)
   return layoutName
 }
 
 /**
- * 切换主题时的特殊处理
- * 删除多余的元素
+ * 테마 전환 시 특수 처리
+ * 불필요한 요소 삭제
  */
 const fixThemeDOM = () => {
   if (isBrowser) {
@@ -150,28 +150,28 @@ const fixThemeDOM = () => {
 }
 
 /**
- * 初始化主题 , 优先级 query > cookies > systemPrefer
+ * 다크모드 초기화 (우선순위: query > cookies > systemPrefer)
  * @param isDarkMode
- * @param updateDarkMode 更改主题ChangeState函数
- * @description 读取cookie中存的用户主题
+ * @param updateDarkMode 다크모드 상태 변경 함수
+ * @description 로컬스토리지에 저장된 사용자 테마 설정 읽기
  */
 export const initDarkMode = (updateDarkMode, defaultDarkMode) => {
-  // 查看用户设备浏览器是否深色模型
+  // 사용자 브라우저/시스템의 다크모드 선호 여부 확인
   let newDarkMode = isPreferDark()
 
-  // 查看localStorage中用户记录的是否深色模式
+  // 로컬스토리지에 저장된 사용자의 이전 설정 확인
   const userDarkMode = loadDarkModeFromLocalStorage()
   if (userDarkMode) {
     newDarkMode = userDarkMode === 'dark' || userDarkMode === 'true'
-    saveDarkModeToLocalStorage(newDarkMode) // 用户手动的才保存
+    saveDarkModeToLocalStorage(newDarkMode) // 사용자가 수동으로 설정한 경우에만 저장
   }
 
-  // 如果站点强制设置默认深色，则优先级改过用
+  // 사이트에서 기본 다크모드를 강제한 경우 해당 설정 적용
   if (defaultDarkMode === 'true') {
     newDarkMode = true
   }
 
-  // url查询条件中是否深色模式
+  // URL 쿼리 파라미터에 모드 설정이 있는 경우 확인
   const queryMode = getQueryVariable('mode')
   if (queryMode) {
     newDarkMode = queryMode === 'dark'
@@ -184,7 +184,7 @@ export const initDarkMode = (updateDarkMode, defaultDarkMode) => {
 }
 
 /**
- * 是否优先深色模式， 根据系统深色模式以及当前时间判断
+ * 다크모드 선호 여부 (시스템 설정 및 현재 시간 기준)
  * @returns {*}
  */
 export function isPreferDark() {
@@ -192,7 +192,7 @@ export function isPreferDark() {
     return true
   }
   if (BLOG.APPEARANCE === 'auto') {
-    // 系统深色模式或时间是夜间时，强行置为夜间模式
+    // 시스템이 다크모드이거나 현재 시간이 야간일 경우 다크모드 강제 적용
     const date = new Date()
     const prefersDarkMode = window.matchMedia(
       '(prefers-color-scheme: dark)'
@@ -208,7 +208,7 @@ export function isPreferDark() {
 }
 
 /**
- * 读取深色模式
+ * 다크모드 설정 읽기
  * @returns {*}
  */
 export const loadDarkModeFromLocalStorage = () => {
@@ -216,7 +216,7 @@ export const loadDarkModeFromLocalStorage = () => {
 }
 
 /**
- * 保存深色模式
+ * 다크모드 설정 저장
  * @param newTheme
  */
 export const saveDarkModeToLocalStorage = newTheme => {

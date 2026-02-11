@@ -94,7 +94,7 @@ function generateLocalesSitemap(link, allPages, locale) {
           : post.slug
         return {
           loc: `${link}${locale}/${slugWithoutLeadingSlash}`,
-          lastmod: new Date(post?.publishDay).toISOString().split('T')[0],
+          lastmod: new Date(post?.publishDate || post?.publishDay).toISOString().split('T')[0],
           changefreq: 'daily',
           priority: '0.7'
         }
@@ -117,4 +117,4 @@ function getUniqueFields(fields) {
   return Array.from(uniqueFieldsMap.values());
 }
 
-export default () => {}
+export default () => { }

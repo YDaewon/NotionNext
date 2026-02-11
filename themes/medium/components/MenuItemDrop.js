@@ -51,7 +51,7 @@ export const MenuItemDrop = ({ link }) => {
         </div>
       )}
 
-      {/* 子菜单 */}
+      {/* 하위 메뉴 */}
       {hasSubMenu && (
         <ul
           className={`${show ? 'visible opacity-100 top-12 ' : 'invisible opacity-0 top-10 '} border-gray-100  bg-white  dark:bg-black dark:border-gray-800 transition-all duration-300 z-20 absolute block drop-shadow-lg `}>

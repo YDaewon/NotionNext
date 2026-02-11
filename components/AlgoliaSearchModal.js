@@ -17,21 +17,21 @@ import { useHotkeys } from 'react-hotkeys-hook'
 const ShortCutActions = [
   {
     key: '↑ ↓',
-    action: '选择'
+    action: '선택'
   },
   {
     key: 'Enter',
-    action: '跳转'
+    action: '이동'
   },
   {
     key: 'Esc',
-    action: '关闭'
+    action: '닫기'
   }
 ]
 
 /**
- * 结合 Algolia 实现的弹出式搜索框
- * 打开方式 cRef.current.openSearch()
+ * Algolia와 결합된 팝업형 검색창 컴포넌트
+ * 실행 방법: cRef.current.openSearch()
  * https://www.algolia.com/doc/api-reference/search-api-parameters/
  */
 export default function AlgoliaSearchModal({ cRef }) {
@@ -50,18 +50,18 @@ export default function AlgoliaSearchModal({ cRef }) {
   const router = useRouter()
 
   /**
-   * 快捷键设置
+   * 단축키 설정
    */
   useHotkeys('ctrl+k', e => {
     e.preventDefault()
     setIsModalOpen(true)
   })
-  // 修改快捷键的使用逻辑
+  // 선택 이동 단축키 로직
   useHotkeys(
     'down',
     e => {
       if (isInputFocused) {
-        // 只有在聚焦时才触发
+        // 입력창에 포커스된 경우에만 동작
         e.preventDefault()
         if (activeIndex < searchResults.length - 1) {
           setActiveIndex(activeIndex + 1)
@@ -96,15 +96,16 @@ export default function AlgoliaSearchModal({ cRef }) {
     'enter',
     e => {
       if (isInputFocused && searchResults.length > 0) {
-        onJumpSearchResult(index)
+        onJumpSearchResult(activeIndex)
       }
     },
     { enableOnFormTags: true }
   )
-  // 跳转Search结果
-  const onJumpSearchResult = () => {
-    if (searchResults.length > 0) {
-      const searchResult = searchResults[activeIndex]
+  // 검색 결과로 이동
+  const onJumpSearchResult = (indexVal) => {
+    const idx = indexVal ?? activeIndex
+    if (searchResults.length > 0 && searchResults[idx]) {
+      const searchResult = searchResults[idx]
       window.location.href = `${siteConfig('SUB_PATH', '')}/${searchResult.slug || searchResult.objectID}`
     }
   }
@@ -120,14 +121,14 @@ export default function AlgoliaSearchModal({ cRef }) {
   }
 
   /**
-   * 页面路径变化后，自动关闭此modal
+   * 페이지 경로 변경 시 모달 자동 닫기
    */
   useEffect(() => {
     setIsModalOpen(false)
   }, [router])
 
   /**
-   * 自动聚焦搜索框
+   * 모달 오픈 시 자동 포커스
    */
   useEffect(() => {
     if (isModalOpen) {
@@ -140,7 +141,7 @@ export default function AlgoliaSearchModal({ cRef }) {
   }, [isModalOpen])
 
   /**
-   * 对外暴露方法
+   * 외부 노출 메서드
    **/
   useImperativeHandle(cRef, () => {
     return {
@@ -157,7 +158,7 @@ export default function AlgoliaSearchModal({ cRef }) {
   const index = client.initIndex(siteConfig('ALGOLIA_INDEX'))
 
   /**
-   * 搜索
+   * 검색 수행
    * @param {*} query
    */
   const handleSearch = async (query, page) => {
@@ -193,39 +194,39 @@ export default function AlgoliaSearchModal({ cRef }) {
             className: 'font-bold border-b border-dashed'
           }
         })
-      }, 200) // 延时高亮
+      }, 200) // 하이라이트 지연 처리
     } catch (error) {
       console.error('Algolia search error:', error)
     }
   }
 
-  // 定义节流函数，确保在用户停止输入一段时间后才会调用处理搜索的方法
+  // 사용자가 입력을 멈춘 후 일정 시간이 지나면 검색을 호출하는 스로틀/데번스 로직
   const throttledHandleInputChange = useRef(
     throttle((query, page = 0) => {
       handleSearch(query, page)
     }, 1000)
   )
 
-  // 用于存储搜索延迟的计时器
+  // 검색 지연용 타이머
   const searchTimer = useRef(null)
 
-  // 修改input的onChange事件处理函数
+  // 입력 변경 핸들러
   const handleInputChange = e => {
     const query = e.target.value
 
-    // 如果已经有计时器在等待搜索，先清除之前的计时器
+    // 대기 중인 검색 타이머 제거
     if (searchTimer.current) {
       clearTimeout(searchTimer.current)
     }
 
-    // 设置新的计时器，在用户停止输入一段时间后触发搜索
+    // 새로운 타이머 설정 (입력 중단 후 800ms 뒤 검색 실행)
     searchTimer.current = setTimeout(() => {
       throttledHandleInputChange.current(query)
     }, 800)
   }
 
   /**
-   * 切换页码
+   * 페이지 번호 전환
    * @param {*} page
    */
   const switchPage = page => {
@@ -233,7 +234,7 @@ export default function AlgoliaSearchModal({ cRef }) {
   }
 
   /**
-   * 关闭弹窗
+   * 모달 닫기
    */
   const closeModal = () => {
     setIsModalOpen(false)
@@ -245,17 +246,15 @@ export default function AlgoliaSearchModal({ cRef }) {
   return (
     <div
       id='search-wrapper'
-      className={`${
-        isModalOpen ? 'opacity-100' : 'invisible opacity-0 pointer-events-none'
-      } z-30 fixed h-screen w-screen left-0 top-0 sm:mt-[10vh] flex items-start justify-center mt-0`}>
-      {/* 模态框 */}
+      className={`${isModalOpen ? 'opacity-100' : 'invisible opacity-0 pointer-events-none'
+        } z-30 fixed h-screen w-screen left-0 top-0 sm:mt-[10vh] flex items-start justify-center mt-0`}>
+      {/* 모달 박스 */}
       <div
-        className={`${
-          isModalOpen ? 'opacity-100' : 'invisible opacity-0 translate-y-10'
-        } max-h-[80vh] flex flex-col justify-between w-full min-h-[10rem] h-full md:h-fit max-w-xl dark:bg-hexo-black-gray dark:border-gray-800 bg-white dark:bg- p-5 rounded-lg z-50 shadow border hover:border-blue-600 duration-300 transition-all `}>
+        className={`${isModalOpen ? 'opacity-100' : 'invisible opacity-0 translate-y-10'
+          } max-h-[80vh] flex flex-col justify-between w-full min-h-[10rem] h-full md:h-fit max-w-xl dark:bg-hexo-black-gray dark:border-gray-800 bg-white dark:bg- p-5 rounded-lg z-50 shadow border hover:border-blue-600 duration-300 transition-all `}>
         <div className='flex justify-between items-center'>
           <div className='text-2xl text-blue-600 dark:text-yellow-600 font-bold'>
-            搜索
+            검색
           </div>
           <div>
             <i
@@ -266,15 +265,15 @@ export default function AlgoliaSearchModal({ cRef }) {
 
         <input
           type='text'
-          placeholder='在这里输入搜索关键词...'
+          placeholder='검색어를 입력하세요...'
           onChange={e => handleInputChange(e)}
-          onFocus={() => setIsInputFocused(true)} // 聚焦时
-          onBlur={() => setIsInputFocused(false)} // 失去焦点时
+          onFocus={() => setIsInputFocused(true)}
+          onBlur={() => setIsInputFocused(false)}
           className='text-black dark:text-gray-200 bg-gray-50 dark:bg-gray-600 outline-blue-500 w-full px-4 my-2 py-1 mb-4 border rounded-md'
           ref={inputRef}
         />
 
-        {/* 标签组 */}
+        {/* 태그 그룹 */}
         <div className='mb-4'>
           <TagGroups />
         </div>
@@ -282,7 +281,7 @@ export default function AlgoliaSearchModal({ cRef }) {
           <div>
             <p className=' text-slate-600 text-center my-4 text-base'>
               {' '}
-              无法找到相关结果
+              관련 결과를 찾을 수 없습니다:
               <span className='font-semibold'>&quot;{keyword}&quot;</span>
             </p>
           </div>
@@ -324,19 +323,19 @@ export default function AlgoliaSearchModal({ cRef }) {
           <div>
             {totalHit > 0 && (
               <p>
-                共搜索到 {totalHit} 条结果，用时 {useTime} 毫秒
+                총 {totalHit}개의 결과 검색됨 ({useTime}ms 소요)
               </p>
             )}
           </div>
           <div className='text-gray-600 dark:text-gray-300  text-right'>
             <span>
-              <i className='fa-brands fa-algolia'></i> Algolia 提供搜索服务
+              <i className='fa-brands fa-algolia'></i> Algolia 검색 서비스 제공
             </span>
           </div>
         </div>
       </div>
 
-      {/* 遮罩 */}
+      {/* 배경 오버레이 */}
       <div
         onClick={closeModal}
         className='z-30 fixed top-0 left-0 w-full h-full flex items-center justify-center glassmorphism'
@@ -346,11 +345,11 @@ export default function AlgoliaSearchModal({ cRef }) {
 }
 
 /**
- * 标签组
+ * 태그 그룹
  */
 function TagGroups() {
   const { tagOptions } = useGlobal()
-  //  获取tagOptions数组前十个
+  //  태그 목록 중 상위 10개만 표시
   const firstTenTags = tagOptions?.slice(0, 10)
 
   return (
@@ -381,8 +380,8 @@ function TagGroups() {
 }
 
 /**
- * 分页
- * @param {*} param0
+ * 페이지네이션
+ * @param {*} props
  */
 function Pagination(props) {
   const { totalPage, page, switchPage } = props

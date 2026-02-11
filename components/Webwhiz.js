@@ -2,7 +2,7 @@ import { siteConfig } from '@/lib/config'
 import ExternalScript from './ExternalScript'
 
 /**
- * 一个开源ai组件
+ * 오픈 소스 AI 채팅 컴포넌트
  * @see https://github.com/webwhiz-ai/webwhiz
  * @returns
  */
@@ -13,5 +13,5 @@ export default function WebWhiz() {
     baseUrl: siteConfig('WEB_WHIZ_BASE_URL'),
     chatbotId: siteConfig('WEB_WHIZ_CHAT_BOT_ID')
   }
-  return <ExternalScript {...props}/>
+  return <ExternalScript {...props} />
 }

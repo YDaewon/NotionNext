@@ -3,7 +3,7 @@ import { loadExternalResource } from '@/lib/utils'
 import { useEffect, useRef, useState } from 'react'
 
 /**
- * 音乐播放器
+ * 음악 플레이어 컴포넌트
  * @returns
  */
 const Player = () => {
@@ -31,7 +31,7 @@ const Player = () => {
     try {
       await loadExternalResource(musicPlayerCDN, 'js')
     } catch (error) {
-      console.error('音乐组件异常', error)
+      console.error('음악 컴포넌트 오류', error)
     }
 
     if (musicMetingEnable) {

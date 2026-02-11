@@ -26,9 +26,9 @@ const SearchInput = ({ currentTag, currentSearch, cRef, className }) => {
     }
   }
   const handleKeyUp = (e) => {
-    if (e.keyCode === 13) { // 回车
+    if (e.keyCode === 13) { // 엔터 키
       handleSearch(searchInputRef.current.value)
-    } else if (e.keyCode === 27) { // ESC
+    } else if (e.keyCode === 27) { // ESC 키
       cleanSearch()
     }
   }
@@ -49,11 +49,11 @@ const SearchInput = ({ currentTag, currentSearch, cRef, className }) => {
       setShowClean(false)
     }
   }
-  function lockSearchInput () {
+  function lockSearchInput() {
     lock = true
   }
 
-  function unLockSearchInput () {
+  function unLockSearchInput() {
     lock = false
   }
 
@@ -72,14 +72,14 @@ const SearchInput = ({ currentTag, currentSearch, cRef, className }) => {
 
     <div className='-ml-8 cursor-pointer float-right items-center justify-center py-2'
       onClick={handleSearch}>
-        <i className={`hover:text-black transform duration-200 text-gray-500  dark:hover:text-gray-300 cursor-pointer fas ${onLoading ? 'fa-spinner animate-spin' : 'fa-search'} `} />
+      <i className={`hover:text-black transform duration-200 text-gray-500  dark:hover:text-gray-300 cursor-pointer fas ${onLoading ? 'fa-spinner animate-spin' : 'fa-search'} `} />
     </div>
 
     {(showClean &&
       <div className='-ml-12 cursor-pointer float-right items-center justify-center py-2'>
         <i className='fas fa-times hover:text-black transform duration-200 text-gray-400 cursor-pointer   dark:hover:text-gray-300' onClick={cleanSearch} />
       </div>
-      )}
+    )}
   </div>
 }
 

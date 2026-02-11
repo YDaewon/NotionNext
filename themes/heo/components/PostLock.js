@@ -2,10 +2,10 @@ import { useGlobal } from '@/lib/global'
 import { useEffect, useRef } from 'react'
 
 /**
- * 加密文章校验组件
+ * 비밀번호 보호 게시글 인증 컴포넌트
  * @param {password, validPassword} props
- * @param password 正确的密码
- * @param validPassword(bool) 回调函数，校验正确回调入参为true
+ * @param password 올바른 비밀번호
+ * @param validPassword(bool) 콜백 함수, 인증 성공 시 true를 인자로 호출
  * @returns
  */
 export const PostLock = props => {
@@ -23,7 +23,7 @@ export const PostLock = props => {
   }
   const passwordInputRef = useRef(null)
   useEffect(() => {
-    // 选中密码输入框并将其聚焦
+    // 비밀번호 입력창에 포커스 설정
     passwordInputRef.current.focus()
   }, [])
 
@@ -44,7 +44,7 @@ export const PostLock = props => {
                 submitPassword()
               }
             }}
-            ref={passwordInputRef} // 绑定ref到passwordInputRef变量
+            ref={passwordInputRef} // passwordInputRef 변수에 ref 바인딩
             className='outline-none w-full text-sm pl-5 rounded-l transition focus:shadow-lg  font-light leading-10 bg-gray-100 dark:bg-gray-500'></input>
           <div
             onClick={submitPassword}

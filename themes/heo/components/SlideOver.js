@@ -14,8 +14,8 @@ import { MenuListSide } from './MenuListSide'
 import TagGroups from './TagGroups'
 
 /**
- * 侧边抽屉
- * 移动端的菜单在这里
+ * 사이드 드로어
+ * 모바일 메뉴가 여기에 위치합니다.
  */
 export default function SlideOver(props) {
   const { cRef, tagOptions } = props
@@ -23,21 +23,21 @@ export default function SlideOver(props) {
   const { locale } = useGlobal()
   const router = useRouter()
   /**
-   * 函数组件暴露方法useImperativeHandle
+   * useImperativeHandle을 통한 함수 컴포넌트 메서드 노출
    **/
   useImperativeHandle(cRef, () => ({
     toggleSlideOvers: toggleSlideOvers
   }))
 
   /**
-   * 开关侧拉抽屉
+   * 사이드 드로어 열기/닫기
    */
   const toggleSlideOvers = () => {
     setOpen(!open)
   }
 
   /**
-   * 自动关闭抽屉
+   * 드로어 자동 닫기
    */
   useEffect(() => {
     setOpen(false)
@@ -87,22 +87,22 @@ export default function SlideOver(props) {
                       </button>
                     </div>
                   </Transition.Child>
-                  {/* 内容 */}
+                  {/* 콘텐츠 */}
                   <div className='flex h-full flex-col overflow-y-scroll bg-white dark:bg-[#18171d] py-6 shadow-xl'>
                     <div className='relative mt-6 flex-1 flex-col space-y-3 px-4 sm:px-6 dark:text-white '>
                       <section className='space-y-2 flex flex-col'>
-                        {/* 切换深色模式 */}
+                        {/* 다크 모드 전환 */}
                         <DarkModeBlockButton />
                       </section>
 
                       <section className='space-y-2 flex flex-col'>
                         <div>{locale.COMMON.BLOG}</div>
-                        {/* 导航按钮 */}
+                        {/* 네비게이션 버튼 */}
                         <div className='gap-2 grid grid-cols-2'>
-                          <Button title={'主页'} url={'/'} />
-                          <Button title={'关于'} url={'/about'} />
+                          <Button title={'홈'} url={'/'} />
+                          <Button title={'소개'} url={'/about'} />
                         </div>
-                        {/* 用户自定义菜单 */}
+                        {/* 사용자 정의 메뉴 */}
                         <MenuListSide {...props} />
                       </section>
 
@@ -123,7 +123,7 @@ export default function SlideOver(props) {
 }
 
 /**
- * 一个包含图标的按钮
+ * 아이콘이 포함된 버튼
  */
 function DarkModeBlockButton() {
   const darkModeRef = useRef()
@@ -136,23 +136,23 @@ function DarkModeBlockButton() {
     <button
       onClick={handleChangeDarkMode}
       className={
-        'group duration-200 hover:text-white hover:shadow-md hover:bg-blue-600 flex justify-between items-center px-2 py-2 border dark:border-gray-600 bg-white dark:bg-[#ff953e]  rounded-lg'
+        'group duration-200 hover:text-zinc-100 dark:hover:text-zinc-900 hover:shadow-md hover:bg-zinc-900 dark:hover:bg-zinc-100 flex justify-between items-center px-2 py-2 border border-zinc-300 dark:border-zinc-700 bg-[#efefef] dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-lg'
       }>
-      <DarkModeButton cRef={darkModeRef} className='group-hover:text-white' />{' '}
+      <DarkModeButton cRef={darkModeRef} className='group-hover:text-current' />{' '}
       {isDarkMode ? locale.MENU.LIGHT_MODE : locale.MENU.DARK_MODE}
     </button>
   )
 }
 
 /**
- * 一个简单的按钮
+ * 일반 버튼
  */
 function Button({ title, url }) {
   return (
     <SmartLink
       href={url}
       className={
-        'duration-200 hover:text-white hover:shadow-md flex cursor-pointer justify-between items-center px-2 py-2 border dark:border-gray-600 bg-white hover:bg-blue-600 dark:bg-[#1e1e1e] rounded-lg'
+        'duration-200 hover:text-zinc-100 dark:hover:text-zinc-900 hover:shadow-md flex cursor-pointer justify-between items-center px-2 py-2 border border-zinc-300 dark:border-zinc-700 bg-[#efefef] dark:bg-zinc-800 hover:bg-zinc-900 dark:hover:bg-zinc-100 rounded-lg'
       }>
       {title}
     </SmartLink>

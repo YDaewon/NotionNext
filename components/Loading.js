@@ -1,12 +1,12 @@
 
 /**
- * 异步文件加载时的占位符
+ * 비동기 파일 로딩 시 표시되는 로딩 컴포넌트
  * @returns
  */
 const Loading = (props) => {
-  return <div id="loading-container" className="-z-10 w-screen h-screen flex justify-center items-center fixed left-0 top-0">
+    return <div id="loading-container" className="-z-10 w-screen h-screen flex justify-center items-center fixed left-0 top-0">
         <div id="loading-wrapper">
-            <div className="loading"> <i className="fas fa-spinner animate-spin text-3xl "/></div>
+            <div className="loading"> <i className="fas fa-spinner animate-spin text-3xl " /></div>
         </div>
     </div>
 }

@@ -4,7 +4,7 @@ import SmartLink from '@/components/SmartLink'
 import CONFIG from '../config'
 
 /**
- * 交流频道
+ * 커뮤니티 섹션 카드 (소셜 카드)
  * @returns
  */
 export default function TouchMeCard() {
@@ -14,7 +14,7 @@ export default function TouchMeCard() {
   return (
     <div className={'relative h-28 text-white flex flex-col'}>
       <FlipCard
-        className='cursor-pointer lg:p-6 p-4 border rounded-xl bg-[#4f65f0] dark:bg-yellow-600 dark:border-gray-600'
+        className='cursor-pointer lg:p-6 p-4 border rounded-xl bg-[#efefef] dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 border-zinc-300 dark:border-zinc-700'
         frontContent={
           <div className='h-full'>
             <h2 className='font-[1000] text-3xl'>

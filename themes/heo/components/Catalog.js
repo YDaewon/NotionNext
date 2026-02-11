@@ -4,14 +4,14 @@ import { uuidToId } from 'notion-utils'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 /**
- * 目录导航组件
+ * 목차(TOC) 네비게이션 컴포넌트
  * @param toc
  * @returns {JSX.Element}
  * @constructor
  */
 const Catalog = ({ toc }) => {
   const { locale } = useGlobal()
-  // 监听滚动事件
+  // 스크롤 이벤트 감지
   useEffect(() => {
     window.addEventListener('scroll', actionSectionScrollSpy)
     actionSectionScrollSpy()
@@ -20,11 +20,11 @@ const Catalog = ({ toc }) => {
     }
   }, [])
 
-  // 目录自动滚动
+  // 목차 자동 스크롤
   const tRef = useRef(null)
   const tocIds = []
 
-  // 同步选中目录事件
+  // 선택된 목차 항목 동기화
   const [activeSection, setActiveSection] = useState(null)
 
   const actionSectionScrollSpy = useCallback(
@@ -56,7 +56,7 @@ const Catalog = ({ toc }) => {
     }, 200)
   )
 
-  // 无目录就直接返回空
+  // 목차가 없으면 아무것도 반환하지 않음
   if (!toc || toc.length < 1) {
     return <></>
   }

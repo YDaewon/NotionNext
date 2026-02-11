@@ -1,7 +1,7 @@
 import { useGlobal } from '@/lib/global'
 
 /**
- * 字数统计
+ * 글자 수 및 읽기 시간 통계 컴포넌트
  * @returns
  */
 export default function WordCount({ wordCount, readTime }) {

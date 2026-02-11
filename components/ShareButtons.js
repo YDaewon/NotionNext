@@ -55,6 +55,7 @@ import {
 const QrCode = dynamic(() => import('@/components/QrCode'), { ssr: false })
 
 /**
+ * 공유 버튼 그룹 컴포넌트
  * @author https://github.com/txs
  * @param {*} param0
  * @returns
@@ -75,7 +76,7 @@ const ShareButtons = ({ post }) => {
   const [qrCodeShow, setQrCodeShow] = useState(false)
 
   const copyUrl = () => {
-    // 确保 shareUrl 是一个正确的字符串并进行解码
+    // URL을 안전하게 디코딩하여 클립보드에 복사
     const decodedUrl = decodeURIComponent(shareUrl)
     navigator?.clipboard?.writeText(decodedUrl)
     alert(locale.COMMON.URL_COPIED + ' \n' + decodedUrl)
@@ -393,7 +394,7 @@ const ShareButtons = ({ post }) => {
                 onClick={() => openRedirectShare('https://link.csdn.net/?target=')}
                 className='cursor-pointer rounded-full mx-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500'>
                 <div className='w-8 h-8 rounded-full items-center justify-center'
-                  style={{backgroundColor: '#ff6a00'}}>
+                  style={{ backgroundColor: '#ff6a00' }}>
                   <Image
                     src='/svg/csdn.svg'
                     alt='CSDN'
@@ -414,10 +415,10 @@ const ShareButtons = ({ post }) => {
                 onClick={() => openRedirectShare('https://link.juejin.cn/?target=')}
                 className='cursor-pointer rounded-full mx-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500'>
                 <div className='w-8 h-8 rounded-full flex items-center justify-center'
-                     style={{ backgroundColor: '#5dade2' }}>
+                  style={{ backgroundColor: '#5dade2' }}>
                   <Image
                     src='/svg/juejin.svg'
-                    alt='掘金'
+                    alt='Juejin'
                     width={24}
                     height={24}
                     className='w-5 h-5'

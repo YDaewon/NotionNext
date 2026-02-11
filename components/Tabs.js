@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { siteConfig } from '@/lib/config'
 
 /**
- * Tabs切换标签
+ * 탭 전환 컴포넌트
  * @param {*} param0
  * @returns
  */
@@ -28,7 +28,7 @@ const Tabs = ({ className, children }) => {
           ))}
         </ul>
       )}
-      {/* 标签切换的时候不销毁 DOM 元素，使用 CSS 样式进行隐藏 */}
+      {/* 탭 전환 시 DOM 요소를 파괴하지 않고 CSS를 사용해 숨김/노출 처리합니다. */}
       <div>
         {validChildren.map((item, index) => (
           <section

@@ -9,6 +9,11 @@ import CONFIG from '../config'
 import CategoryItem from './CategoryItem'
 import TagItemMini from './TagItemMini'
 
+/**
+ * 블로그 포스트 카드 컴포넌트 (목록에서 사용)
+ * @param {*} param0 
+ * @returns 
+ */
 const BlogPostCard = ({ post, showSummary }) => {
   const showPreview =
     siteConfig('MEDIUM_POST_LIST_PREVIEW', null, CONFIG) && post.blockMap

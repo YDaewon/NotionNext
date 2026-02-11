@@ -34,9 +34,9 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
         data-wow-delay='.2s'
         className={
           (POST_TWO_COLS ? '2xl:h-96 2xl:flex-col' : '') +
-          ' wow fadeInUp border bg-white dark:bg-[#1e1e1e] flex mb-4 flex-col h-[23rem] md:h-52 md:flex-row  group w-full dark:border-gray-600 hover:border-indigo-600  dark:hover:border-yellow-600 duration-300 transition-colors justify-between overflow-hidden rounded-xl'
+          ' wow fadeInUp border bg-[#efefef] dark:bg-zinc-800 flex mb-4 flex-col h-[23rem] md:h-52 md:flex-row  group w-full border-zinc-300 dark:border-zinc-700 hover:border-zinc-500 dark:hover:border-zinc-400 duration-300 transition-colors justify-between overflow-hidden rounded-xl'
         }>
-        {/* 图片封面 */}
+        {/* 이미지 커버 */}
         {showPageCover && (
           <SmartLink href={post?.href} passHref legacyBehavior>
             <div
@@ -48,20 +48,20 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
                 priority={index === 0}
                 src={post?.pageCoverThumbnail}
                 alt={post?.title}
-                className='h-full w-full object-cover group-hover:scale-105 group-hover:brightness-75 transition-all duration-500 ease-in-out' //宽高都调整为自适应,保证封面居中
+                className='h-full w-full object-cover group-hover:scale-105 group-hover:brightness-75 transition-all duration-500 ease-in-out' // 너비와 높이를 자동 조정하여 커버를 중앙에 배치
               />
             </div>
           </SmartLink>
         )}
 
-        {/* 文字区块 */}
+        {/* 텍스트 섹션 */}
         <div
           className={
             (POST_TWO_COLS ? '2xl:p-4 2xl:h-48 2xl:w-full' : '') +
             ' flex p-6  flex-col justify-between h-48 md:h-full w-full md:w-7/12'
           }>
           <header>
-            {/* 分类 */}
+            {/* 카테고리 */}
             {post?.category && (
               <div
                 className={`flex mb-1 items-center ${showPreview ? 'justify-center' : 'justify-start'} hidden md:block flex-wrap dark:text-gray-300 text-gray-600 hover:text-indigo-700 dark:hover:text-yellow-500`}>
@@ -74,7 +74,7 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
               </div>
             )}
 
-            {/* 标题和图标 */}
+            {/* 제목 및 아이콘 */}
             <SmartLink
               href={post?.href}
               passHref
@@ -83,15 +83,15 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
               }>
               {siteConfig('POST_TITLE_ICON') && (
                 <NotionIcon
-                icon={post.pageIcon}
-                className="heo-icon w-6 h-6 mr-1 align-middle transform translate-y-[-8%]" // 专门为 Heo 主题的图标设置样式
-              />
+                  icon={post.pageIcon}
+                  className="heo-icon w-6 h-6 mr-1 align-middle transform translate-y-[-8%]" // Heo 테마 전용 아이콘 스타일링
+                />
               )}
               <span className='menu-link '>{post.title}</span>
             </SmartLink>
           </header>
 
-          {/* 摘要 */}
+          {/* 요약 */}
           {(!showPreview || showSummary) && (
             <main className='line-clamp-2 replace text-gray-700  dark:text-gray-300 text-sm font-light leading-tight'>
               {post.summary}

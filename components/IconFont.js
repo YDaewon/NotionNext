@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
 /**
- * iconfont
+ * Iconfont(아이콘 폰트) 지원 컴포넌트
  */
 export default function IconFont() {
     const router = useRouter()
@@ -12,14 +12,14 @@ export default function IconFont() {
     useEffect(() => {
         loadExternalResource('/webfonts/iconfont.js')
             .then(u => {
-                console.log('iconfont loaded:', u);
+                // console.log('iconfont loaded:', u);
 
-                // 查找所有 <i> 标签且 class 包含 'icon-'
+                // 'icon-' 클래스를 포함하는 모든 <i> 태그를 찾아 SVG로 변환
                 const iElements = document.querySelectorAll('i[class*="icon-"]');
                 iElements.forEach(element => {
                     const className = Array.from(element.classList).find(cls => cls.startsWith('icon-'));
                     if (className) {
-                        // 创建新的 <svg> 元素
+                        // 새로운 <svg> 요소 생성
                         const svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                         svgElement.setAttribute('class', 'icon');
                         svgElement.setAttribute('aria-hidden', 'true');
@@ -28,9 +28,8 @@ export default function IconFont() {
                         useElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `#${className}`);
                         svgElement.appendChild(useElement);
 
-                        // 替换原来的 <i> 元素
+                        // 기존 <i> 요소를 <svg> 요소로 교체
                         element.replaceWith(svgElement);
-                        // console.log(`Replaced <i> with class "${className}" to <svg>`);
                     }
                 });
             })

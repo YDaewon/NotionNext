@@ -7,9 +7,9 @@ import BlogPostCard from './BlogPostCard'
 import BlogPostListEmpty from './BlogPostListEmpty'
 
 /**
- * 博客列表滚动分页
- * @param posts 所有文章
- * @param tags 所有标签
+ * 블로그 게시글 목록 무한 스크롤 컴포넌트
+ * @param posts 전체 게시글
+ * @param currentSearch 현재 검색어
  * @returns {JSX.Element}
  * @constructor
  */
@@ -40,7 +40,7 @@ const BlogPostListScroll = ({ posts = [], currentSearch }) => {
     updatePage(page + 1)
   }
 
-  // 监听滚动自动分页加载
+  // 스크롤 감지 및 자동 페이지 로딩
   const scrollTrigger = useCallback(
     throttle(() => {
       const scrollS = window.scrollY + window.outerHeight
@@ -55,7 +55,7 @@ const BlogPostListScroll = ({ posts = [], currentSearch }) => {
     }, 500)
   )
 
-  // 监听滚动
+  // 스크롤 이벤트 리스너 등록
   useEffect(() => {
     window.addEventListener('scroll', scrollTrigger)
     return () => {
@@ -71,7 +71,7 @@ const BlogPostListScroll = ({ posts = [], currentSearch }) => {
   } else {
     return (
       <div id='posts-wrapper' ref={targetRef} className='w-full'>
-        {/* 文章列表 */}
+        {/* 게시글 목록 */}
         <div className='space-y-1 lg:space-y-4'>
           {postsToShow?.map(post => (
             <BlogPostCard key={post.id} post={post} showSummary={true} />
@@ -94,10 +94,10 @@ const BlogPostListScroll = ({ posts = [], currentSearch }) => {
 }
 
 /**
- * 获取从第1页到指定页码的文章
- * @param page 第几页
- * @param totalPosts 所有文章
- * @param POSTS_PER_PAGE 每页文章数量
+ * 1페이지부터 지정된 페이지까지의 게시글을 가져옵니다.
+ * @param page 현재 페이지 번호
+ * @param totalPosts 전체 게시글
+ * @param POSTS_PER_PAGE 페이지당 게시글 수
  * @returns {*}
  */
 const getPostByPage = function (page, totalPosts, POSTS_PER_PAGE) {

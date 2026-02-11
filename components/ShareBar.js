@@ -6,7 +6,7 @@ const ShareButtons = dynamic(() => import('@/components/ShareButtons'), {
 })
 
 /**
- * 分享栏
+ * 게시글 상세 페이지의 공유 바 컴포넌트
  * @param {} param0
  * @returns
  */

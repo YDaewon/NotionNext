@@ -1,9 +1,9 @@
 /**
- *   HEO 主题说明
- *  > 主题设计者 [张洪](https://zhheo.com/)
- *  > 主题开发者 [tangly1024](https://github.com/tangly1024)
- *  1. 开启方式 在blog.config.js 将主题配置为 `HEO`
- *  2. 更多说明参考此[文档](https://docs.tangly1024.com/article/notionnext-heo)
+ *   HEO 테마 설명
+ *  > 테마 설계자 [Zhang Hong](https://zhheo.com/)
+ *  > 테마 개발자 [tangly1024](https://github.com/tangly1024)
+ *  1. 적용 방법: blog.config.js에서 THEME를 `heo`로 설정
+ *  2. 상세 설명: [문서](https://docs.tangly1024.com/article/notionnext-heo) 참조
  */
 
 import Comment from '@/components/Comment'
@@ -46,7 +46,7 @@ import AISummary from '@/components/AISummary'
 import ArticleExpirationNotice from '@/components/ArticleExpirationNotice'
 
 /**
- * 基础布局 采用上中下布局，移动端使用顶部侧边导航栏
+ * 기본 레이아웃 (상-중-하 구조, 모바일은 상단 사이드 네비게이션 사용)
  * @param props
  * @returns {JSX.Element}
  * @constructor
@@ -54,31 +54,31 @@ import ArticleExpirationNotice from '@/components/ArticleExpirationNotice'
 const LayoutBase = props => {
   const { children, slotTop, className } = props
 
-  // 全屏模式下的最大宽度
+  // 전체 화면 모드일 때의 최대 너비
   const { fullWidth, isDarkMode } = useGlobal()
   const router = useRouter()
 
   const headerSlot = (
     <header>
-      {/* 顶部导航 */}
+      {/* 상단 네비게이션 */}
       <Header {...props} />
 
-      {/* 通知横幅 */}
+      {/* 알림바 및 히어로 영역 (홈 페이지 전용) */}
       {router.route === '/' ? (
         <>
-          <NoticeBar />
-          <Hero {...props} />
+          {/* <NoticeBar />
+          <Hero {...props} /> */}
         </>
       ) : null}
       {fullWidth ? null : <PostHeader {...props} isDarkMode={isDarkMode} />}
     </header>
   )
 
-  // 右侧栏 用户信息+标签列表
+  // 우측 사이드바 (사용자 정보 + 태그 목록)
   const slotRight =
     router.route === '/404' || fullWidth ? null : <SideRight {...props} />
 
-  const maxWidth = fullWidth ? 'max-w-[96rem] mx-auto' : 'max-w-[86rem]' // 普通最大宽度是86rem和顶部菜单栏对齐，留空则与窗口对齐
+  const maxWidth = fullWidth ? 'max-w-[96rem] mx-auto' : 'max-w-[86rem]' // 일반 최대 너비는 86rem (상단 메뉴와 정렬)
 
   const HEO_HERO_BODY_REVERSE = siteConfig(
     'HEO_HERO_BODY_REVERSE',
@@ -87,7 +87,7 @@ const LayoutBase = props => {
   )
   const HEO_LOADING_COVER = siteConfig('HEO_LOADING_COVER', true, CONFIG)
 
-  // 加载wow动画
+  // WOW 애니메이션 로드
   useEffect(() => {
     loadWowJS()
   }, [])
@@ -95,13 +95,13 @@ const LayoutBase = props => {
   return (
     <div
       id='theme-heo'
-      className={`${siteConfig('FONT_STYLE')} bg-[#f7f9fe] dark:bg-[#18171d] h-full min-h-screen flex flex-col scroll-smooth`}>
+      className={`${siteConfig('FONT_STYLE')} bg-[#f7f7f7] dark:bg-[#181818] h-full min-h-screen flex flex-col scroll-smooth`}>
       <Style />
 
-      {/* 顶部嵌入 导航栏，首页放hero，文章页放文章详情 */}
+      {/* 상단 영역 (메인 네비게이션, 히어로 또는 게시글 헤더) */}
       {headerSlot}
 
-      {/* 主区块 */}
+      {/* 메인 콘텐츠 영역 */}
       <main
         id='wrapper-outer'
         className={`flex-grow w-full ${maxWidth} mx-auto relative md:px-5`}>
@@ -109,7 +109,7 @@ const LayoutBase = props => {
           id='container-inner'
           className={`${HEO_HERO_BODY_REVERSE ? 'flex-row-reverse' : ''} w-full mx-auto lg:flex justify-center relative z-10`}>
           <div className={`w-full h-auto ${className || ''}`}>
-            {/* 主区上部嵌入 */}
+            {/* 메인 상단 슬롯 */}
             {slotTop}
             {children}
           </div>
@@ -117,13 +117,13 @@ const LayoutBase = props => {
           <div className='lg:px-2'></div>
 
           <div className='hidden xl:block'>
-            {/* 主区快右侧 */}
+            {/* 우측 사이드바 슬롯 */}
             {slotRight}
           </div>
         </div>
       </main>
 
-      {/* 页脚 */}
+      {/* 푸터 */}
       <Footer />
 
       {HEO_LOADING_COVER && <LoadingCover />}
@@ -132,15 +132,14 @@ const LayoutBase = props => {
 }
 
 /**
- * 首页
- * 是一个博客列表，嵌入一个Hero大图
+ * 홈 페이지 (게시글 리스트 + 히어로 대형 이미지)
  * @param {*} props
  * @returns
  */
 const LayoutIndex = props => {
   return (
     <div id='post-outer-wrapper' className='px-5 md:px-0'>
-      {/* 文章分类条 */}
+      {/* 게시글 카테고리 바 */}
       <CategoryBar {...props} />
       {siteConfig('POST_LIST_STYLE') === 'page' ? (
         <BlogPostListPage {...props} />
@@ -152,14 +151,14 @@ const LayoutIndex = props => {
 }
 
 /**
- * 博客列表
+ * 게시글 목록 페이지
  * @param {*} props
  * @returns
  */
 const LayoutPostList = props => {
   return (
     <div id='post-outer-wrapper' className='px-5  md:px-0'>
-      {/* 文章分类条 */}
+      {/* 게시글 카테고리 바 */}
       <CategoryBar {...props} />
       {siteConfig('POST_LIST_STYLE') === 'page' ? (
         <BlogPostListPage {...props} />
@@ -171,7 +170,7 @@ const LayoutPostList = props => {
 }
 
 /**
- * 搜索
+ * 검색 결과 페이지
  * @param {*} props
  * @returns
  */
@@ -181,7 +180,7 @@ const LayoutSearch = props => {
   const currentSearch = keyword || router?.query?.s
 
   useEffect(() => {
-    // 高亮搜索结果
+    // 검색 결과 하이라이트
     if (currentSearch) {
       setTimeout(() => {
         replaceSearchResult({
@@ -215,18 +214,16 @@ const LayoutSearch = props => {
 }
 
 /**
- * 归档
+ * 아카이브 (보관함) 페이지
  * @param {*} props
  * @returns
  */
 const LayoutArchive = props => {
   const { archivePosts } = props
 
-  // 归档页顶部显示条，如果是默认归档则不显示。分类详情页显示分类列表，标签详情页显示当前标签
-
   return (
     <div className='p-5 rounded-xl border dark:border-gray-600 max-w-6xl w-full bg-white dark:bg-[#1e1e1e]'>
-      {/* 文章分类条 */}
+      {/* 카테고리 바 */}
       <CategoryBar {...props} border={false} />
 
       <div className='px-3'>
@@ -243,7 +240,7 @@ const LayoutArchive = props => {
 }
 
 /**
- * 文章详情
+ * 게시글 상세 페이지
  * @param {*} props
  * @returns
  */
@@ -271,7 +268,7 @@ const LayoutSlug = props => {
   const router = useRouter()
   const waiting404 = siteConfig('POST_WAITING_TIME_FOR_404') * 1000
   useEffect(() => {
-    // 404
+    // 페이지를 찾을 수 없는 경우 처리
     if (!post) {
       setTimeout(
         () => {
@@ -281,7 +278,7 @@ const LayoutSlug = props => {
             )
             if (!article) {
               router.push('/404').then(() => {
-                console.warn('找不到页面', router.asPath)
+                console.warn('페이지를 찾을 수 없습니다:', router.asPath)
               })
             }
           }
@@ -293,18 +290,18 @@ const LayoutSlug = props => {
   return (
     <>
       <div
-        className={`article h-full w-full ${fullWidth ? '' : 'xl:max-w-5xl'} ${hasCode ? 'xl:w-[73.15vw]' : ''}  bg-white dark:bg-[#18171d] dark:border-gray-600 lg:hover:shadow lg:border rounded-2xl lg:px-2 lg:py-4 `}>
-        {/* 文章锁 */}
+        className={`article h-full w-full ${fullWidth ? '' : 'xl:max-w-5xl'} ${hasCode ? 'xl:w-[73.15vw]' : ''}  bg-white dark:bg-[#181818] dark:border-gray-600 lg:hover:shadow lg:border rounded-2xl lg:px-2 lg:py-4 `}>
+        {/* 게시글 보호 로크 */}
         {lock && <PostLock validPassword={validPassword} />}
 
         {!lock && post && (
           <div className='mx-auto md:w-full md:px-5'>
-            {/* 文章主体 */}
+            {/* 게시글 본체 */}
             <article
               id='article-wrapper'
               itemScope
               itemType='https://schema.org/Movie'>
-              {/* Notion文章主体 */}
+              {/* Notion 게시글 내용 */}
               <section
                 className='wow fadeInUp p-5 justify-center mx-auto'
                 data-wow-delay='.2s'>
@@ -315,30 +312,30 @@ const LayoutSlug = props => {
                 <WWAds orientation='horizontal' className='w-full' />
               </section>
 
-              {/* 上一篇\下一篇文章 */}
+              {/* 이전/다음 글 추천 */}
               <PostAdjacent {...props} />
 
-              {/* 分享 */}
+              {/* 공유 바 */}
               <ShareBar post={post} />
               {post?.type === 'Post' && (
                 <div className='px-5'>
-                  {/* 版权 */}
+                  {/* 저작권 선언 */}
                   <PostCopyright {...props} />
-                  {/* 文章推荐 */}
+                  {/* 관련 게시글 추천 */}
                   <PostRecommend {...props} />
                 </div>
               )}
             </article>
 
-            {/* 评论区 */}
+            {/* 댓글 영역 */}
             {fullWidth ? null : (
               <div className={`${commentEnable && post ? '' : 'hidden'}`}>
                 <hr className='my-4 border-dashed' />
-                {/* 评论区上方广告 */}
+                {/* 댓글 상단 광고 */}
                 <div className='py-2'>
                   <AdSlot />
                 </div>
-                {/* 评论互动 */}
+                {/* 댓글 섹션 */}
                 <div className='duration-200 overflow-x-auto px-5'>
                   <div className='text-2xl dark:text-white'>
                     <i className='fas fa-comment mr-1' />
@@ -358,16 +355,15 @@ const LayoutSlug = props => {
 }
 
 /**
- * 404
+ * 404 페이지 찾을 수 없음
  * @param {*} props
  * @returns
  */
 const Layout404 = props => {
-  // const { meta, siteInfo } = props
   const { onLoading, fullWidth } = useGlobal()
   return (
     <>
-      {/* 主区块 */}
+      {/* 메인 블록 */}
       <main
         id='wrapper-outer'
         className={`flex-grow ${fullWidth ? '' : 'max-w-4xl'} w-screen mx-auto px-5`}>
@@ -382,30 +378,30 @@ const Layout404 = props => {
             leaveFrom='opacity-100 translate-y-0'
             leaveTo='opacity-0 -translate-y-16'
             unmount={false}>
-            {/* 404卡牌 */}
+            {/* 404 카드 */}
             <div className='error-content flex flex-col md:flex-row w-full mt-12 h-[30rem] md:h-96 justify-center items-center bg-white dark:bg-[#1B1C20] border dark:border-gray-800 rounded-3xl'>
-              {/* 左侧动图 */}
+              {/* 좌측 애니메이션 이미지 */}
               <LazyImage
                 className='error-img h-60 md:h-full p-4'
                 src={
                   'https://bu.dusays.com/2023/03/03/6401a7906aa4a.gif'
                 }></LazyImage>
 
-              {/* 右侧文字 */}
+              {/* 우측 텍스트 정보 */}
               <div className='error-info flex-1 flex flex-col justify-center items-center space-y-4'>
                 <h1 className='error-title font-extrabold md:text-9xl text-7xl dark:text-white'>
                   404
                 </h1>
-                <div className='dark:text-white'>请尝试站内搜索寻找文章</div>
+                <div className='dark:text-white'>검색을 통해 원하는 게시글을 찾아보세요</div>
                 <SmartLink href='/'>
                   <button className='bg-blue-500 py-2 px-4 text-white shadow rounded-lg hover:bg-blue-600 hover:shadow-md duration-200 transition-all'>
-                    回到主页
+                    홈으로 가기
                   </button>
                 </SmartLink>
               </div>
             </div>
 
-            {/* 404页面底部显示最新文章 */}
+            {/* 404 페이지 하단 최신글 그룹 */}
             <div className='mt-12'>
               <LatestPostsGroup {...props} />
             </div>
@@ -417,7 +413,7 @@ const Layout404 = props => {
 }
 
 /**
- * 分类列表
+ * 카테고리 리스트
  * @param {*} props
  * @returns
  */
@@ -459,7 +455,7 @@ const LayoutCategoryIndex = props => {
 }
 
 /**
- * 标签列表
+ * 태그 리스트
  * @param {*} props
  * @returns
  */

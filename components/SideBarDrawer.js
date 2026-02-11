@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
 /**
- * 侧边栏抽屉面板，可以从侧面拉出
+ * 사이드바 드로어 패널 (측면에서 슬라이드 아웃)
  * @returns {JSX.Element}
  * @constructor
  */
@@ -26,7 +26,7 @@ const SideBarDrawer = ({
     }
   }, [router.events])
 
-  // 点击按钮更改侧边抽屉状态
+  // 버튼 클릭 시 사이드 드로어 상태 전환
   const switchSideDrawerVisible = showStatus => {
     if (showStatus) {
       onOpen && onOpen()
@@ -57,7 +57,7 @@ const SideBarDrawer = ({
         {children}
       </div>
 
-      {/* 背景蒙版 */}
+      {/* 배경 오버레이 */}
       <div
         id='sidebar-drawer-background'
         onClick={() => switchSideDrawerVisible(false)}

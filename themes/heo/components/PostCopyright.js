@@ -7,7 +7,7 @@ import CONFIG from '../config'
 import NotByAI from '@/components/NotByAI'
 
 /**
- * 版权声明
+ * 게시글 저작권 선언 컴포넌트
  * @returns
  */
 export default function PostCopyright() {

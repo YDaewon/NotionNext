@@ -2,11 +2,11 @@ import { useGlobal } from '@/lib/global'
 import { useEffect, useState } from 'react'
 
 /**
- * 文章波浪动画
+ * 게시글 파도 애니메이션
  */
 export default function WavesArea() {
   const { isDarkMode } = useGlobal()
-  const color = isDarkMode ? '#18171d' : '#f7f9fe'
+  const color = isDarkMode ? '#0a0a0a' : '#ffffff'
   const [showWave, setShowWave] = useState(true)
 
   useEffect(() => {

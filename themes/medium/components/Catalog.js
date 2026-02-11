@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import Progress from './Progress'
 
 /**
- * 目录导航组件
+ * 목차 내비게이션 컴포넌트
  * @param toc
  * @returns {JSX.Element}
  * @constructor
@@ -12,12 +12,12 @@ import Progress from './Progress'
 const Catalog = ({ toc }) => {
   const tocIds = []
 
-  // 目录自动滚动
+  // 목차 자동 스크롤을 위한 참조
   const tRef = useRef(null)
-  // 同步选中目录事件
+  // 동기화된 선택된 섹션 상태
   const [activeSection, setActiveSection] = useState(null)
 
-  // 监听滚动事件
+  // 스크롤 이벤트 리스너 등록
   useEffect(() => {
     window.addEventListener('scroll', actionSectionScrollSpy)
     actionSectionScrollSpy()
@@ -56,7 +56,7 @@ const Catalog = ({ toc }) => {
     }, throttleMs)
   )
 
-  // 无目录就直接返回空
+  // 목차가 없으면 빈 컴포넌트 반환
   if (!toc || toc.length < 1) {
     return <></>
   }

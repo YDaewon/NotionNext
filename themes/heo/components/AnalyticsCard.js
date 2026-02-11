@@ -2,22 +2,22 @@ import CONFIG from '../config'
 import { siteConfig } from '@/lib/config'
 
 /**
- * 博客统计卡牌
+ * 블로그 통계 카드 컴포넌트
  * @param {*} props
  * @returns
  */
 export function AnalyticsCard(props) {
-  const targetDate = new Date(siteConfig('HEO_SITE_CREATE_TIME', null, CONFIG))
-  const today = new Date()
-  const diffTime = today.getTime() - targetDate.getTime() // 获取两个日期之间的毫秒数差值
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) // 将毫秒数差值转换为天数差值
-  const postCountTitle = siteConfig('HEO_POST_COUNT_TITLE', null, CONFIG)
-  const siteTimeTitle = siteConfig('HEO_SITE_TIME_TITLE', null, CONFIG)
-  const siteVisitTitle = siteConfig('HEO_SITE_VISIT_TITLE', null, CONFIG)
-  const siteVisitorTitle = siteConfig('HEO_SITE_VISITOR_TITLE', null, CONFIG)
+    const targetDate = new Date(siteConfig('HEO_SITE_CREATE_TIME', null, CONFIG))
+    const today = new Date()
+    const diffTime = today.getTime() - targetDate.getTime() // 두 날짜 사이의 밀리초 차이 계산
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) // 밀리초를 일수로 변환
+    const postCountTitle = siteConfig('HEO_POST_COUNT_TITLE', null, CONFIG)
+    const siteTimeTitle = siteConfig('HEO_SITE_TIME_TITLE', null, CONFIG)
+    const siteVisitTitle = siteConfig('HEO_SITE_VISIT_TITLE', null, CONFIG)
+    const siteVisitorTitle = siteConfig('HEO_SITE_VISITOR_TITLE', null, CONFIG)
 
-  const { postCount } = props
-  return <>
+    const { postCount } = props
+    return <>
         <div className='text-md flex flex-col space-y-1 justify-center px-3'>
             <div className='inline'>
                 <div className='flex justify-between'>
@@ -28,7 +28,7 @@ export function AnalyticsCard(props) {
             <div className='inline'>
                 <div className='flex justify-between'>
                     <div>{siteTimeTitle}</div>
-                    <div>{diffDays} 天</div>
+                    <div>{diffDays} 일</div>
                 </div>
             </div>
             <div className='hidden busuanzi_container_page_pv'>
@@ -44,5 +44,5 @@ export function AnalyticsCard(props) {
                 </div>
             </div>
         </div>
-        </>
+    </>
 }

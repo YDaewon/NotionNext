@@ -1,7 +1,7 @@
 import SmartLink from '@/components/SmartLink'
 
 /**
- * 归档分组
+ * 아카이브 그룹 컴포넌트
  * @param {*} param0
  * @returns
  */

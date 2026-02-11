@@ -1,11 +1,11 @@
 import SmartLink from '@/components/SmartLink'
 
 /**
- * 上一篇，下一篇文章
+ * 이전 글, 다음 글 내비게이션 컴포넌트
  * @param {prev,next} param0
  * @returns
  */
-export default function ArticleAround ({ prev, next }) {
+export default function ArticleAround({ prev, next }) {
   if (!prev || !next) {
     return <></>
   }

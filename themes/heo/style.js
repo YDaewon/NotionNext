@@ -1,19 +1,25 @@
 /* eslint-disable react/no-unknown-property */
 /**
- * 此处样式只对当前主题生效
- * 此处不支持tailwindCSS的 @apply 语法
+ * 여기에 정의된 스타일은 현재 테마에만 적용됩니다.
+ * 여기서는 tailwindCSS의 @apply 구문을 지원하지 않습니다.
  * @returns
  */
 const Style = () => {
   return (
     <style jsx global>{`
-      body {
-        background-color: #f7f9fe;
+      .dark body {
+        background-color: #0a0a0a; /* 순수 무채색 회색 */
       }
 
-      // 公告栏中的字体固定白色
-      #theme-heo #announcement-content .notion {
-        color: white;
+      // 공지사항의 글꼴 색상
+      #theme-heo #announcement-content .notion,
+      #theme-heo #announcement-content .notion * {
+        color: #18181b !important; /* 라이트 모드: 검은색 */
+      }
+
+      .dark #theme-heo #announcement-content .notion,
+      .dark #theme-heo #announcement-content .notion * {
+        color: #fafafa !important; /* 다크 모드: 흰색 */
       }
 
       ::-webkit-scrollbar-thumb {
@@ -48,7 +54,7 @@ const Style = () => {
         box-sizing: border-box;
       }
 
-      // 标签滚动动画
+      // 태그 롤링 애니메이션
       .tags-group-wrapper {
         animation: rowup 60s linear infinite;
       }
