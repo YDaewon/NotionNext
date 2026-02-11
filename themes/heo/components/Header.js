@@ -3,6 +3,7 @@ import { isBrowser } from '@/lib/utils'
 import throttle from 'lodash.throttle'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import ArchiveButton from './ArchiveButton'
 import DarkModeButton from './DarkModeButton'
 import Logo from './Logo'
 import { MenuListTop } from './MenuListTop'
@@ -167,6 +168,7 @@ const Header = props => {
 
           {/* 우측 고정 섹션 */}
           <div className='flex flex-shrink-0 justify-end items-center w-48'>
+            <ArchiveButton />
             <RandomPostButton {...props} />
             <SearchButton {...props} />
             {!JSON.parse(siteConfig('THEME_SWITCH')) && (

@@ -54,7 +54,6 @@ export default function SideRight(props) {
           className={
             'hover:border-zinc-500 dark:hover:border-zinc-400 duration-200'
           }>
-          <TagGroups tags={sortedTags} currentTag={currentTag} />
           <GitHubProjectsCard />
         </Card>
 
