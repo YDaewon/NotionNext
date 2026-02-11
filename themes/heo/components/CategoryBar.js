@@ -71,7 +71,7 @@ const MenuItem = ({ href, name }) => {
   const selected = category === name
   return (
     <div
-      className={`whitespace-nowrap mr-2 duration-200 transition-all font-bold px-2 py-0.5 rounded-md text-zinc-900 dark:text-zinc-100 hover:text-zinc-100 hover:bg-zinc-900 dark:hover:bg-zinc-100 dark:hover:text-zinc-900 ${selected ? 'text-zinc-100 bg-zinc-900 dark:bg-zinc-100 dark:text-zinc-900' : ''}`}>
+      className={`whitespace-nowrap mr-2 duration-200 transition-all font-bold px-2 py-0.5 rounded-md ${selected ? 'text-zinc-100 bg-zinc-900 dark:bg-zinc-100 dark:text-zinc-900' : 'text-zinc-900 dark:text-zinc-100 hover:text-zinc-100 hover:bg-zinc-900 dark:hover:bg-zinc-100 dark:hover:text-zinc-900'}`}>
       <SmartLink href={href}>{name}</SmartLink>
     </div>
   )
